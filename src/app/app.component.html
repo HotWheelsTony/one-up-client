@@ -1,13 +1,28 @@
-<div>
+<div class="header">
     <span>
         Accounts
     </span>
 </div>
+<br />
 <div>
     <span>
         Cheque
     </span>
     <span>
+        {{ accountsData }}
+    </span>
+</div>
+<br />
+<div>
+    <span>
+        Savings
+    </span>
+    <span>
         Amount
     </span>
+</div>
+<br />
+<div>
+    <button (click)="ping()">ping!</button>
+    <span> {{ responseData.meta.statusEmoji }} </span>
 </div>
