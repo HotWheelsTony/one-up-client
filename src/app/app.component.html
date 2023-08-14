@@ -4,25 +4,14 @@
     </span>
 </div>
 <br />
-<div>
-    <span>
-        Cheque
-    </span>
-    <span>
-        {{ accountsData }}
-    </span>
-</div>
-<br />
-<div>
-    <span>
-        Savings
-    </span>
-    <span>
-        Amount
-    </span>
+<div *ngIf="accountsData">
+    <div *ngFor="let item of accountsData.data">
+        <span>{{ item.attributes.displayName }}</span>
+        <span> ${{ item.attributes.balance.value }} </span>
+    </div>
 </div>
 <br />
 <div>
     <button (click)="ping()">ping!</button>
-    <span> {{ responseData.meta.statusEmoji }} </span>
+    <span *ngIf="responseData !== null"> {{ responseData.meta.statusEmoji }} </span>
 </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountsService } from './accounts.service';
 import { Account } from './account';
+import { from } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -10,8 +11,8 @@ import { Account } from './account';
 export class AppComponent implements OnInit {
     title = 'one-up-client';
 
-    responseData: any;
-    accountsData: Account[] = [];
+    responseData: any | null = null;
+    accountsData: any | null = null;
 
 
     constructor(private accountsService: AccountsService) { }
@@ -21,10 +22,14 @@ export class AppComponent implements OnInit {
     }
 
     async refreshAccounts() {
-        this.accountsService.refresh();
+        this.accountsData = await this.accountsService.refresh();
+        console.log(this.accountsData.data);
     }
 
     async ping() {
         this.responseData = await this.accountsService.ping();
+        if (this.responseData) {
+            setTimeout(() => this.responseData = null, 1000);
+        }
     }
 }
