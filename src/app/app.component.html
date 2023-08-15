@@ -1,13 +1,15 @@
-<app-header [title]="title"></app-header>
-<br />
-<div *ngIf="accountsData">
-    <div *ngFor="let item of accountsData.data">
-        <span>{{ item.attributes.displayName }}</span>
-        <span> ${{ item.attributes.balance.value }} </span>
+<div class="container">
+    <app-header [title]="title"></app-header>
+    <div *ngIf="accountsData">
+        <div *ngFor="let item of accountsData.data">
+            <app-account-card [displayName]="item.attributes.displayName"
+                [value]="item.attributes.balance.value"></app-account-card>
+            <!-- <span>{{ item.attributes.displayName }}</span> -->
+            <!-- <span> ${{ item.attributes.balance.value }} </span> -->
+        </div>
     </div>
-</div>
-<br />
-<div>
-    <button (click)="ping()">ping!</button>
-    <span *ngIf="responseData !== null"> {{ responseData.meta.statusEmoji }} </span>
+    <div>
+        <button (click)="ping()">ping!</button>
+        <span *ngIf="responseData !== null"> {{ responseData.meta.statusEmoji }} </span>
+    </div>
 </div>
