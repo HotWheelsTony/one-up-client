@@ -21,7 +21,7 @@ export class AccountsService {
         return new HttpHeaders().set('Authorization', `Bearer ${this._cachedToken}`);
     }
 
-    async refresh() {
+    async getAccounts() {
         const headers = await this.amendHeaders();
         return lastValueFrom(this.http.get(this._baseUrl + '/accounts', { headers }));
     }

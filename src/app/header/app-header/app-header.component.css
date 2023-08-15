@@ -1,0 +1,15 @@
+.container {
+    padding: 10px;
+}
+
+.header {
+    padding: 15px;
+    color: white;
+    border-radius: 10px;
+    background-color: var(--primary-orange);
+}
+
+.title {
+    font-family: var(--global-font);
+    font-size: var(--font-size-lg);
+}

@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+
+    /* COLORS */
+    --primary-orange: #ff9100;
+    --secondary-grey: #ededed;
+
+
+    /* FONTS */
+    --global-font: 'Robot', sans-serif;
+    --font-size-lg: 25px;
+    --font-size-med: 18px;
+    --font-size-small: 12px;
+
+}
+
+body {
+    margin: 0px;
+    font-family: var(--global-font);
+}

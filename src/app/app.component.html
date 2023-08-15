@@ -1,8 +1,4 @@
-<div class="header">
-    <span>
-        Accounts
-    </span>
-</div>
+<app-header [title]="title"></app-header>
 <br />
 <div *ngIf="accountsData">
     <div *ngFor="let item of accountsData.data">
