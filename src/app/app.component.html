@@ -4,12 +4,10 @@
         <div *ngFor="let item of accountsData.data">
             <app-account-card [displayName]="item.attributes.displayName"
                 [value]="item.attributes.balance.value"></app-account-card>
-            <!-- <span>{{ item.attributes.displayName }}</span> -->
-            <!-- <span> ${{ item.attributes.balance.value }} </span> -->
         </div>
     </div>
     <div>
-        <button (click)="ping()">ping!</button>
+        <app-button title="Refresh" (click)="refresh()"></app-button>
         <span *ngIf="responseData !== null"> {{ responseData.meta.statusEmoji }} </span>
     </div>
 </div>

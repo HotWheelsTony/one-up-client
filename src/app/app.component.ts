@@ -8,7 +8,6 @@ import { AccountsService } from './accounts.service';
 })
 export class AppComponent implements OnInit {
     title = 'Accounts';
-
     responseData: any | null = null;
     accountsData: any | null = null;
 
@@ -16,10 +15,10 @@ export class AppComponent implements OnInit {
     constructor(private accountsService: AccountsService) { }
 
     ngOnInit(): void {
-        this.refreshAccounts();
+        this.refresh();
     }
 
-    async refreshAccounts() {
+    async refresh() {
         this.accountsData = await this.accountsService.getAccounts();
     }
 

@@ -1,0 +1,12 @@
+.button-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: var(--secondary-grey);
+}
+
+.button-container:hover {
+    color: green;
+    cursor: pointer;
+}
