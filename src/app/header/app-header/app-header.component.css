@@ -1,11 +1,10 @@
 .header {
-    padding: 15px;
-    color: white;
-    border-radius: 10px;
-    background-color: var(--primary-orange);
+    padding-bottom: 15px;
+    border-bottom: var(--secondary-grey) solid 1px;
 }
 
 .title {
     font-family: var(--global-font);
     font-size: var(--font-size-lg);
+    font-weight: bold;
 }
