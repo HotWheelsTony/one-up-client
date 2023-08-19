@@ -10,3 +10,7 @@
     font-weight: bold;
     margin-bottom: 5px;
 }
+
+.available-balance {
+    color: green;
+}

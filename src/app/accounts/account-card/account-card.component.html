@@ -1,4 +1,4 @@
 <div class="card">
     <span class="account-title">{{ displayName }}</span>
-    <span>${{ value }}</span>
+    <span [ngClass]="{'available-balance': value && value > 0}">${{ value }}</span>
 </div>
