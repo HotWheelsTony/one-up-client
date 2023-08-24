@@ -6,5 +6,6 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./app-header.component.css']
 })
 export class AppHeaderComponent {
-    @Input() title: string | null = null;
+    @Input() title!: string;
+    @Input() subtitle: string | null = null;
 }

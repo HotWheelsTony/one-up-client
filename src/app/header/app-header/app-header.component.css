@@ -1,4 +1,6 @@
 .header {
+    display: flex;
+    flex-direction: column;
     padding-bottom: 15px;
     border-bottom: var(--secondary-grey) solid 1px;
 }
@@ -7,4 +9,9 @@
     font-family: var(--global-font);
     font-size: var(--font-size-lg);
     font-weight: bold;
+}
+
+.subtitle {
+    font-size: var(--font-size-small);
+    color: var(--primary-grey);
 }

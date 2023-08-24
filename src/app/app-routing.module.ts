@@ -14,7 +14,7 @@ const routes: Routes = [
         component: AccountsComponent,
     },
     {
-        path: ':accountId/transactions',
+        path: ':accountId',
         component: TransactionsComponent
     }
 

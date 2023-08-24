@@ -20,9 +20,8 @@ export class AccountsComponent implements OnInit {
         this.refresh();
     }
 
-    public navigateToTransactions(account: Account) {
-        console.log('navigating to transactions');
-        this._router.navigate([account.id, 'transactions']);
+    public navigateToTransactions(accountId: string) {
+        this._router.navigate([accountId]);
     }
 
 
@@ -30,12 +29,12 @@ export class AccountsComponent implements OnInit {
         this._accountsService.getAccounts().subscribe(
             (response) => {
                 this.accounts = response.data.map((acc: any) => {
-                    const account = new Account();
-                    account.id = acc.id;
-                    account.currency = acc.attributes.balance.currencyCode;
-                    account.name = acc.attributes.displayName;
-                    account.value = acc.attributes.balance.value;
-                    return account;
+                    return {
+                        id: acc.id,
+                        name: acc.attributes.displayName,
+                        value: acc.attributes.balance.value,
+                        currency: acc.attributes.balance.currencyCode,
+                    } as Account;
                 }) as Account[];
             }
         )

@@ -47,10 +47,18 @@ export class AccountsService {
         );
     }
 
+    public getAccountById(id: string): Observable<any> {
+        return this.amendHeaders().pipe(
+            switchMap((headers) => {
+                return this.http.get(`${this._baseUrl}/${id}`, { headers });
+            })
+        );
+    }
+
     public getAccountTransactions(accountId: string): Observable<any> {
         return this.amendHeaders().pipe(
             switchMap((headers) => {
-                return this.http.get(`${this._baseUrl}/${accountId}/transactions`, { headers })
+                return this.http.get(`${this._baseUrl}/${accountId}/transactions`, { headers });
             })
         );
     }

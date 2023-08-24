@@ -1,4 +1,5 @@
 <div class="container">
-    <app-header title="transactions"></app-header>
-    <span class="big">hello world!</span>
+    <div *ngIf="this.account">
+        <app-header [title]="this.account.name" subtitle="Past transactions"></app-header>
+    </div>
 </div>

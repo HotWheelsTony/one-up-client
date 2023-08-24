@@ -1,8 +1,8 @@
 <div class="container">
     <app-header [title]="title"></app-header>
     <div *ngIf="accounts">
-        <div *ngFor="let item of accounts">
-            <app-account-card [account]="item" (click)="navigateToTransactions(item)"></app-account-card>
+        <div *ngFor="let account of accounts">
+            <app-account-card [account]="account" (click)="navigateToTransactions(account.id)"></app-account-card>
         </div>
     </div>
     <div>
