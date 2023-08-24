@@ -7,8 +7,11 @@ import { Component, Input } from '@angular/core';
 })
 export class AccountCardComponent {
     @Input()
-    displayName: string | null = null;
+    public displayName: string | null = null;
 
     @Input()
-    value: number | null = null;
+    public currency: string | null = null;
+
+    @Input()
+    public value: number | null = null;
 }

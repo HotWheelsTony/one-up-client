@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountsService } from './accounts.service';
+import { AccountsService } from './accounts/accounts.service';
+import { Account } from './accounts/account';
+import { map } from 'rxjs'
 
 @Component({
     selector: 'app-root',
@@ -7,9 +9,9 @@ import { AccountsService } from './accounts.service';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    title = 'Accounts';
-    responseData: any | null = null;
-    accountsData: any | null = null;
+    public title = 'Accounts';
+    public responseData: any | null = null;
+    public accounts: Account[] | null = null;
 
 
     constructor(private accountsService: AccountsService) { }
@@ -18,14 +20,23 @@ export class AppComponent implements OnInit {
         this.refresh();
     }
 
-    async refresh() {
-        this.accountsData = await this.accountsService.getAccounts();
+
+    refresh() {
+        this.accountsService.getAccounts().subscribe(
+            (response) => {
+                console.log(response)
+                this.accounts = response.data.map((acc: any) => {
+                    const account = new Account();
+                    account.id = acc.id;
+                    account.currency = acc.attributes.balance.currencyCode;
+                    account.name = acc.attributes.displayName;
+                    account.value = acc.attributes.balance.value;
+                    return account;
+                }) as Account[];
+            }
+        )
     }
 
-    async ping() {
-        this.responseData = await this.accountsService.ping();
-        if (this.responseData) {
-            setTimeout(() => this.responseData = null, 1000);
-        }
-    }
+
 }
+

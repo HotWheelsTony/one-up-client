@@ -1,9 +1,9 @@
 <div class="container">
     <app-header [title]="title"></app-header>
-    <div *ngIf="accountsData">
-        <div *ngFor="let item of accountsData.data">
-            <app-account-card [displayName]="item.attributes.displayName"
-                [value]="item.attributes.balance.value"></app-account-card>
+    <div *ngIf="accounts">
+        <div *ngFor="let item of accounts">
+            <app-account-card [displayName]="item.name" [value]="item.value"
+                [currency]="item.currency"></app-account-card>
         </div>
     </div>
     <div>

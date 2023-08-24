@@ -1,4 +1,7 @@
 <div class="card">
     <span class="account-title">{{ displayName }}</span>
-    <span [ngClass]="{'available-balance': value && value > 0}">${{ value }}</span>
+    <div>
+        <span [ngClass]="{'available-balance': value && value > 0}">${{ value }}</span>
+        <span class="currency-code"> {{currency }}</span>
+    </div>
 </div>
