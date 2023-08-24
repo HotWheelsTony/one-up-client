@@ -1,27 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountsService } from './accounts/accounts.service';
-import { Account } from './accounts/account';
+import { AccountsService } from '../accounts.service';
+import { Account } from '../account';
+import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.css']
+    selector: 'app-accounts',
+    templateUrl: './accounts.component.html',
+    styleUrls: ['./accounts.component.css']
 })
-export class HomeComponent implements OnInit {
+export class AccountsComponent implements OnInit {
     public title = 'Accounts';
     public responseData: any | null = null;
     public accounts: Account[] = [];
 
 
-    constructor(private accountsService: AccountsService) { }
+    constructor(private _accountsService: AccountsService, private _router: Router) { }
 
     ngOnInit(): void {
         this.refresh();
     }
 
+    public navigateToTransactions(account: Account) {
+        console.log('navigating to transactions');
+        this._router.navigate([account.id, 'transactions']);
+    }
 
-    refresh() {
-        this.accountsService.getAccounts().subscribe(
+
+    public refresh() {
+        this._accountsService.getAccounts().subscribe(
             (response) => {
                 this.accounts = response.data.map((acc: any) => {
                     const account = new Account();
@@ -35,6 +41,6 @@ export class HomeComponent implements OnInit {
         )
     }
 
-
 }
+
 

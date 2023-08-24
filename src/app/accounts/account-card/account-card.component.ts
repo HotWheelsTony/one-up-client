@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Account } from '../account';
 
 @Component({
     selector: 'app-account-card',
@@ -6,12 +7,8 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./account-card.component.css']
 })
 export class AccountCardComponent {
-    @Input()
-    public displayName: string | null = null;
 
     @Input()
-    public currency: string | null = null;
+    public account!: Account;
 
-    @Input()
-    public value: number | null = null;
 }

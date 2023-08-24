@@ -2,8 +2,7 @@
     <app-header [title]="title"></app-header>
     <div *ngIf="accounts">
         <div *ngFor="let item of accounts">
-            <app-account-card [displayName]="item.name" [value]="item.value"
-                [currency]="item.currency"></app-account-card>
+            <app-account-card [account]="item" (click)="navigateToTransactions(item)"></app-account-card>
         </div>
     </div>
     <div>
