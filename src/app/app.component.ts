@@ -11,7 +11,7 @@ import { map } from 'rxjs'
 export class AppComponent implements OnInit {
     public title = 'Accounts';
     public responseData: any | null = null;
-    public accounts: Account[] | null = null;
+    public accounts: Account[] = [];
 
 
     constructor(private accountsService: AccountsService) { }
@@ -24,7 +24,6 @@ export class AppComponent implements OnInit {
     refresh() {
         this.accountsService.getAccounts().subscribe(
             (response) => {
-                console.log(response)
                 this.accounts = response.data.map((acc: any) => {
                     const account = new Account();
                     account.id = acc.id;

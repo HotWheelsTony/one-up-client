@@ -8,7 +8,7 @@ import { from, Observable, switchMap } from 'rxjs'
 export class AccountsService {
 
 
-    private readonly _baseUrl: string = 'https://api.up.com.au/api/v1';
+    private readonly _baseUrl: string = 'https://api.up.com.au/api/v1/accounts';
     private readonly _tokenPath: string = 'assets/token.txt';
     private _cachedToken: string | null = null;
 
@@ -24,33 +24,35 @@ export class AccountsService {
         }
 
         return this.http.get(this._tokenPath, { responseType: 'text' }).pipe(
-            switchMap(
-                (token) => {
-                    this._cachedToken = token;
-                    return from([token])
-                }
-            )
+            switchMap((token) => {
+                this._cachedToken = token;
+                return from([token])
+            })
         );
     }
 
     private amendHeaders(): Observable<HttpHeaders> {
         return this.getToken().pipe(
-            switchMap(
-                (token) => {
-                    return from([new HttpHeaders().set('Authorization', `Bearer ${token}`)]);
-                }
-            )
+            switchMap((token) => {
+                return from([new HttpHeaders().set('Authorization', `Bearer ${token}`)]);
+            })
         );
     }
 
     public getAccounts(): Observable<any> {
         return this.amendHeaders().pipe(
-            switchMap(
-                (headers) => {
-                    return this.http.get(`${this._baseUrl}/accounts`, { headers })
-                }
-            )
-        )
+            switchMap((headers) => {
+                return this.http.get(`${this._baseUrl}`, { headers })
+            })
+        );
+    }
+
+    public getAccountTransactions(accountId: string): Observable<any> {
+        return this.amendHeaders().pipe(
+            switchMap((headers) => {
+                return this.http.get(`${this._baseUrl}/${accountId}/transactions`, { headers })
+            })
+        );
     }
 
 }
