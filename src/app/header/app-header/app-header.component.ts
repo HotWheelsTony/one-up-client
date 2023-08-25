@@ -8,4 +8,6 @@ import { Component, Input } from '@angular/core';
 export class AppHeaderComponent {
     @Input() title!: string;
     @Input() subtitle: string | null = null;
+    @Input() balance: number | null = null;
+    @Input() currency: string | null = null;
 }

@@ -1,5 +1,6 @@
 <div class="container">
     <div *ngIf="this.account">
-        <app-header [title]="this.account.name" subtitle="Past transactions"></app-header>
+        <app-header [title]="this.account.name" subtitle="Past transactions" [balance]="this.account.value"
+            [currency]="this.account.currency"></app-header>
     </div>
 </div>
