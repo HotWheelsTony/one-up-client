@@ -27,32 +27,16 @@ export class TransactionsComponent implements OnInit {
 
     private getAccountInfo(id: string) {
         this._accountsService.getAccountById(id).subscribe(
-            (response) => {
-                const acc = response.data;
-                this.account = {
-                    id: acc.id,
-                    name: acc.attributes.displayName,
-                    value: acc.attributes.balance.value,
-                    currency: acc.attributes.balance.currencyCode,
-                } as Account;
+            (account) => {
+                this.account = account;
             }
         );
     }
 
     private getTransactions(id: string) {
         this._accountsService.getAccountTransactions(id).subscribe(
-            (response) => {
-                this.transactions = response.data.map((trans: any) => {
-                    return {
-                        id: trans.id,
-                        status: trans.attributes.status,
-                        message: trans.attributes.message,
-                        value: trans.attributes.amount.value,
-                        description: trans.attributes.description,
-                        currency: trans.attributes.amount.currencyCode,
-                    } as Transaction;
-                }) as Transaction[];
-                console.log(this.transactions);
+            (transactions) => {
+                this.transactions = transactions;
             }
         );
     }

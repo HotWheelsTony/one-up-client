@@ -27,17 +27,10 @@ export class AccountsComponent implements OnInit {
 
     public refresh() {
         this._accountsService.getAccounts().subscribe(
-            (response) => {
-                this.accounts = response.data.map((acc: any) => {
-                    return {
-                        id: acc.id,
-                        name: acc.attributes.displayName,
-                        value: acc.attributes.balance.value,
-                        currency: acc.attributes.balance.currencyCode,
-                    } as Account;
-                }) as Account[];
+            (accounts) => {
+                this.accounts = accounts;
             }
-        )
+        );
     }
 
 }
