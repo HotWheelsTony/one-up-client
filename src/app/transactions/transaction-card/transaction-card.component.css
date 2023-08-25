@@ -1,0 +1,41 @@
+.card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-bottom: var(--secondary-grey) solid 1px;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+
+    .merchant {
+        font-size: var(--font-size-med);
+    }
+
+    .date {
+        font-size: var(--font-size-small);
+    }
+
+}
+
+.amount-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .transaction-amount {
+        font-size: var(--font-size-med);
+    }
+
+    .positive-transaction {
+        color: var(--global-accent);
+    }
+
+    .remaining-balance {
+        color: var(--primary-grey);
+        font-size: var(--font-size-small);
+    }
+}

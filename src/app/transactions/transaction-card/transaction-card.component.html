@@ -1,10 +1,12 @@
 <div class="card">
     <div class="description">
-        <span class="type-and-merchant">{{ this.transaction.description }}</span>
-        <span class="date">{{ this.transaction.settledDate }}</span>
+        <span class="merchant">{{ this.transaction.description }}</span>
+        <span class="date">{{ this.transaction.settledDate | date }}</span>
     </div>
-    <div class="amount">
-        <span class="transaction-amount">{{ this.transaction.value }}</span>
-        <span class="remaining-balance">{{ this.transaction.value }}</span>
+    <div class="amount-details">
+        <span [ngClass]="{'positive-transaction': this.transaction.value > 0}" class="transaction-amount">{{
+            this.transaction.value | currency:
+            '$' }}</span>
+        <span class="remaining-balance">{{ this.transaction.remainingBalance | currency: '$' }}</span>
     </div>
 </div>

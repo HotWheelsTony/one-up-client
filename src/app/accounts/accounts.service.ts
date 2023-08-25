@@ -92,7 +92,8 @@ export class AccountsService {
                                     description: transaction.attributes.description,
                                     currency: transaction.attributes.amount.currencyCode,
                                 } as Transaction;
-                            }))])
+                            }))
+                        ]);
                     })
                 );
             })

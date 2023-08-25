@@ -12,19 +12,20 @@ import { Subscription } from 'rxjs';
 })
 export class TransactionsComponent implements OnInit, OnDestroy {
 
-    public account: Account = new Account();
-    public transactions!: Transaction[];
+    public account: Account | null = null;
+    public transactions: Transaction[] = [];
 
     private _accountSubscription: Subscription | null = null;
     private _transactionsSubscription: Subscription | null = null;
 
 
-    constructor(private _accountsService: AccountsService, private _router: Router, private _activatedRoute: ActivatedRoute) { }
+    constructor(private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
 
     ngOnInit(): void {
-        const id = this._activatedRoute.snapshot.paramMap.get('accountId');
-        if (id) {
-            this.getAccountInfo(id);
+
+        const accountId = this._activatedRoute.snapshot.paramMap.get('accountId');
+        if (accountId) {
+            this.getAccountById(accountId);
         }
     }
 
@@ -33,20 +34,19 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         this._transactionsSubscription?.unsubscribe();
     }
 
-    private getAccountInfo(id: string) {
+    private getAccountById(id: string) {
         this._accountSubscription = this._accountsService.getAccountById(id).subscribe(
             (account) => {
                 this.account = account;
-                this.getTransactions();
+                this.getTransactions(account);
             }
         );
     }
 
-    private getTransactions() {
-        this._transactionsSubscription = this._accountsService.getAccountTransactions(this.account).subscribe(
+    private getTransactions(account: Account) {
+        this._transactionsSubscription = this._accountsService.getAccountTransactions(account).subscribe(
             (transactions) => {
                 this.transactions = transactions;
-                console.log(this.transactions);
             }
         );
     }
