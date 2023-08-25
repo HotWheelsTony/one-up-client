@@ -7,8 +7,9 @@ import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './header/app-header/app-header.component';
 import { AccountCardComponent } from './accounts/account-card/account-card.component';
 import { ButtonComponent } from './button/button.component';
-import { TransactionsComponent } from './accounts/transactions/transactions.component';
-import { AccountsComponent } from './accounts/accounts/accounts.component';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { AccountsComponent } from './accounts/accounts.component';
+import { TransactionCardComponent } from './transactions/transaction-card/transaction-card.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { AccountsComponent } from './accounts/accounts/accounts.component';
         AccountCardComponent,
         ButtonComponent,
         TransactionsComponent,
-        AccountsComponent
+        AccountsComponent,
+        TransactionCardComponent
     ],
     imports: [
         BrowserModule,

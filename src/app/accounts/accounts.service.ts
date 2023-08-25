@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { from, Observable, switchMap } from 'rxjs'
 import { Account } from './account';
-import { Transaction } from './transactions/transaction';
+import { Transaction } from '../transactions/transaction';
 
 @Injectable({
     providedIn: 'root'

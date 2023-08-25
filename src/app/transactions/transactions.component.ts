@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Account } from '../account';
-import { AccountsService } from '../accounts.service';
+import { Account } from '../accounts/account';
+import { AccountsService } from '../accounts/accounts.service';
 import { Transaction } from './transaction';
 import { Subscription } from 'rxjs';
 
@@ -10,9 +10,9 @@ import { Subscription } from 'rxjs';
     templateUrl: './transactions.component.html',
     styleUrls: ['./transactions.component.css']
 })
-export class TransactionsComponent implements OnInit {
+export class TransactionsComponent implements OnInit, OnDestroy {
 
-    public account!: Account;
+    public account: Account = new Account();
     public transactions!: Transaction[];
 
     private _accountSubscription: Subscription | null = null;

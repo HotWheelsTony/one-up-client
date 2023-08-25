@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AccountsService } from '../accounts.service';
-import { Account } from '../account';
+import { AccountsService } from './accounts.service';
+import { Account } from './account';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
     templateUrl: './accounts.component.html',
     styleUrls: ['./accounts.component.css']
 })
-export class AccountsComponent implements OnInit {
+export class AccountsComponent implements OnInit, OnDestroy {
 
     public responseData: any | null = null;
     public accounts: Account[] = [];
