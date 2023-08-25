@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs';
 })
 export class AccountsComponent implements OnInit {
 
-    public readonly title = 'Accounts';
     public responseData: any | null = null;
     public accounts: Account[] = [];
 
