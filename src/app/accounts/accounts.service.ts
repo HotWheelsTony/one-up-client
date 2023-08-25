@@ -74,25 +74,42 @@ export class AccountsService {
         );
     }
 
-    public getAccountTransactions(accountId: string): Observable<Transaction[]> {
+    public getAccountTransactions(account: Account) {
         return this.amendHeaders().pipe(
             switchMap((headers) => {
-                return this.http.get(`${this._baseUrl}/${accountId}/transactions`, { headers }).pipe(
+                return this.http.get(`${this._baseUrl}/${account.id}/transactions`, { headers }).pipe(
                     switchMap((response: any) => {
-                        return from([response.data.map((transaction: any) => {
-                            return {
-                                id: transaction.id,
-                                status: transaction.attributes.status,
-                                message: transaction.attributes.message,
-                                value: transaction.attributes.amount.value,
-                                description: transaction.attributes.description,
-                                currency: transaction.attributes.amount.currencyCode,
-                            } as Transaction;
-                        })]) as Observable<Transaction[]>;
+                        return from([this.calculateRemainingBalances(
+                            account,
+                            response.data.map((transaction: any) => {
+                                return {
+                                    id: transaction.id,
+                                    status: transaction.attributes.status,
+                                    message: transaction.attributes.message,
+                                    value: transaction.attributes.amount.value,
+                                    settledDate: transaction.attributes.settledAt,
+                                    createdDate: transaction.attributes.createdAt,
+                                    description: transaction.attributes.description,
+                                    currency: transaction.attributes.amount.currencyCode,
+                                } as Transaction;
+                            }))])
                     })
                 );
             })
         );
+    }
+
+    private calculateRemainingBalances(account: Account, transactions: Transaction[]): Transaction[] {
+        for (let i = 0; i < transactions.length; i++) {
+            const transaction = transactions[i];
+            if (i === 0) {
+                transaction.remainingBalance = account.value;
+            } else {
+                const nextChronoligicalTransaction = transactions[i - 1];
+                transaction.remainingBalance = nextChronoligicalTransaction.remainingBalance - nextChronoligicalTransaction.value;
+            }
+        }
+        return transactions;
     }
 
 }

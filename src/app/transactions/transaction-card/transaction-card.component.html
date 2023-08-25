@@ -1,3 +1,10 @@
-<div>
-    <span>hello world</span>
+<div class="card">
+    <div class="description">
+        <span class="type-and-merchant">{{ this.transaction.description }}</span>
+        <span class="date">{{ this.transaction.settledDate }}</span>
+    </div>
+    <div class="amount">
+        <span class="transaction-amount">{{ this.transaction.value }}</span>
+        <span class="remaining-balance">{{ this.transaction.value }}</span>
+    </div>
 </div>

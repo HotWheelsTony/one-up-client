@@ -25,7 +25,6 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         const id = this._activatedRoute.snapshot.paramMap.get('accountId');
         if (id) {
             this.getAccountInfo(id);
-            this.getTransactions(id);
         }
     }
 
@@ -38,17 +37,21 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         this._accountSubscription = this._accountsService.getAccountById(id).subscribe(
             (account) => {
                 this.account = account;
+                this.getTransactions();
             }
         );
     }
 
-    private getTransactions(id: string) {
-        this._transactionsSubscription = this._accountsService.getAccountTransactions(id).subscribe(
+    private getTransactions() {
+        this._transactionsSubscription = this._accountsService.getAccountTransactions(this.account).subscribe(
             (transactions) => {
                 this.transactions = transactions;
+                console.log(this.transactions);
             }
         );
     }
+
+
 
 
 }

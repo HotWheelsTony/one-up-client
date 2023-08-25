@@ -2,6 +2,7 @@
     <app-header [title]="this.account.name" subtitle="Past transactions" [balance]="this.account.value"
         [currency]="this.account.currency"></app-header>
     <div class="transactions-list">
-
+        <app-transaction-card *ngFor="let transaction of this.transactions"
+            [transaction]="transaction"></app-transaction-card>
     </div>
 </div>

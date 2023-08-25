@@ -4,5 +4,8 @@ export class Transaction {
     public description!: string;
     public message!: string;
     public currency!: string;
-    public value!: string;
+    public value!: number;
+    public settledDate!: string;
+    public createdDate!: string;
+    public remainingBalance!: number;
 }

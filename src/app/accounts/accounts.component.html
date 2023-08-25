@@ -1,11 +1,8 @@
 <div class="container">
     <app-header title="Accounts"></app-header>
     <div *ngIf="accounts">
-        <div *ngFor="let account of accounts">
-            <app-account-card [account]="account" (click)="navigateToTransactions(account.id)"></app-account-card>
-        </div>
-    </div>
-    <div>
-        <app-button title="Refresh" (click)="refresh()"></app-button>
+        <app-account-card *ngFor="let account of this.accounts" [account]="account"
+            (click)="navigateToTransactions(account.id)">
+        </app-account-card>
     </div>
 </div>
