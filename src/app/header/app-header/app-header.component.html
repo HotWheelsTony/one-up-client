@@ -4,7 +4,8 @@
         <span class="subtitle">{{ subtitle }} </span>
     </div>
     <div class="secondary-title">
-        <span [ngClass]="{'available-balance': balance && balance > 0}" class="balance">{{ balance }}</span>
+        <span [ngClass]="{'available-balance': balance && balance > 0}" class="balance">{{ balance | currency: '$'
+            }}</span>
         <span class="currency">{{ currency }}</span>
     </div>
 </div>

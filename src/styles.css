@@ -6,17 +6,21 @@
     --primary-grey: #969696;
     --secondary-grey: #ededed;
     --global-accent: green;
+    --global-background: white;
 
 
     /* FONTS */
     --global-font: 'Robot', sans-serif;
-    --font-size-lg: 25px;
-    --font-size-med: 15px;
-    --font-size-small: 12px;
+    --font-size-header: 26px;
+    --font-size-lg: 20px;
+    --font-size-med: 17px;
+    --font-size-small: 13px;
 
 }
 
 body {
     margin: 0px;
+    padding-left: 15px;
+    padding-right: 15px;
     font-family: var(--global-font);
 }
