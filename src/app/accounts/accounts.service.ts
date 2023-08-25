@@ -9,16 +9,12 @@ import { Transaction } from './transactions/transaction';
 })
 export class AccountsService {
 
-
     private readonly _baseUrl: string = 'https://api.up.com.au/api/v1/accounts';
     private readonly _tokenPath: string = 'assets/token.txt';
     private _cachedToken: string | null = null;
 
 
-    constructor(
-        private http: HttpClient
-    ) { }
-
+    constructor(private http: HttpClient) { }
 
     private getToken(): Observable<string> {
         if (this._cachedToken) {

@@ -7,6 +7,6 @@
 }
 
 .button-container:hover {
-    color: green;
+    color: var(--global-accent);
     cursor: pointer;
 }

@@ -31,7 +31,10 @@
     .balance {
         font-family: var(--global-font);
         font-size: var(--font-size-lg);
-        font-weight: bold;
+    }
+
+    .available-balance {
+        color: var(--global-accent);
     }
 
     .currency {
