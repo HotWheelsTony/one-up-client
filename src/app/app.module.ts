@@ -4,12 +4,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AppHeaderComponent } from './header/app-header/app-header.component';
+import { AppHeaderComponent } from './header/header.component';
 import { AccountCardComponent } from './accounts/account-card/account-card.component';
 import { ButtonComponent } from './button/button.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { TransactionCardComponent } from './transactions/transaction-card/transaction-card.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { TransactionCardComponent } from './transactions/transaction-card/transa
     imports: [
         BrowserModule,
         AppRoutingModule,
-        HttpClientModule
+        HttpClientModule,
+        MatIconModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

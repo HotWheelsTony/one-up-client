@@ -1,6 +1,6 @@
 <div class="container">
-    <app-header *ngIf="this.account" [title]="this.account.name" subtitle="Past transactions"
-        [balance]="this.account.value" [currency]="this.account.currency"></app-header>
+    <app-header *ngIf="this.account" [includeBackButton]="true" icon="home" [title]="this.account.name"
+        subtitle="Past transactions" [balance]="this.account.value" [currency]="this.account.currency"></app-header>
     <div class="transactions-list">
         <app-transaction-card *ngFor="let transaction of this.transactions"
             [transaction]="transaction"></app-transaction-card>

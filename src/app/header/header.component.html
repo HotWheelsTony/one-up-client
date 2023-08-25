@@ -1,0 +1,15 @@
+<div class="header">
+    <div class="button-and-title-container">
+        <mat-icon *ngIf="this.includeBackButton" (click)="this.goBack()" class="back-icon">arrow_back</mat-icon>
+        <div class="primary-title">
+            <span class="title">{{ this.title }}</span>
+            <span class="subtitle">{{ this.subtitle }} </span>
+        </div>
+    </div>
+    <div class="secondary-title">
+        <span [ngClass]="{'available-balance': this.balance && this.balance > 0}" class="balance">{{ this.balance |
+            currency: '$'
+            }}</span>
+        <span class="currency">{{ this.currency }}</span>
+    </div>
+</div>

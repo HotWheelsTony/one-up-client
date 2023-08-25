@@ -1,11 +1,14 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-header',
-    templateUrl: './app-header.component.html',
-    styleUrls: ['./app-header.component.css']
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.css']
 })
 export class AppHeaderComponent {
+
+    constructor(private _router: Router) { }
 
     @Input()
     title!: string;
@@ -18,5 +21,13 @@ export class AppHeaderComponent {
 
     @Input()
     currency: string | null = null;
+
+    @Input()
+    includeBackButton: boolean = false;
+
+
+    public goBack(): void {
+        this._router.navigate(['..']);
+    }
 
 }
