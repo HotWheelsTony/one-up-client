@@ -1,7 +1,8 @@
 <div class="card">
-    <span class="account-title">{{ account.name }}</span>
+    <span class="account-title">{{ account.attributes.displayName }}</span>
     <div>
-        <span [ngClass]="{'available-balance': account.value > 0}">{{ account.value | currency: '$' }}</span>
-        <span class="currency-code"> {{account.currency }}</span>
+        <span [ngClass]="{'available-balance': account.attributes.balance.valueInBaseUnits > 0}">{{
+            account.attributes.balance.value | currency: '$' }}</span>
+        <span class="currency-code"> {{ account.attributes.balance.currencyCode }}</span>
     </div>
 </div>

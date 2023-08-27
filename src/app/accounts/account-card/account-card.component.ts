@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Account } from '../account';
+import { AccountResource } from 'src/app/models/account-resource.interface';
 
 @Component({
     selector: 'app-account-card',
@@ -9,6 +9,6 @@ import { Account } from '../account';
 export class AccountCardComponent {
 
     @Input()
-    public account!: Account;
+    public account!: AccountResource;
 
 }
