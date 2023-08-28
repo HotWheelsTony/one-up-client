@@ -15,17 +15,19 @@ export class AuthService {
     constructor(private http: HttpClient) { }
 
     private readToken(): Observable<string> {
-        if (this._cachedToken) return of(this._cachedToken);
+        if (this._cachedToken) {
+            return of(this._cachedToken);
+        }
 
-        return this.http.get(this._tokenPath, { responseType: 'text' }).pipe(
+        return this.http.get<string>(this._tokenPath).pipe(
             switchMap((token) => {
                 this._cachedToken = token;
-                return of(token);
+                return of(this._cachedToken);
             })
         );
     }
 
-    private createHeaders(): Observable<HttpHeaders> {
+    public createHeaders(): Observable<HttpHeaders> {
         return this.readToken().pipe(
             switchMap((token) => {
                 return of(new HttpHeaders().set('Authorization', `Bearer ${token}`));
