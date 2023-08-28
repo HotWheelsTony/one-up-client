@@ -12,14 +12,14 @@ export class AuthService {
     private _cachedToken?: string;
 
 
-    constructor(private http: HttpClient) { }
+    constructor(private _http: HttpClient) { }
 
     private readToken(): Observable<string> {
         if (this._cachedToken) {
             return of(this._cachedToken);
         }
 
-        return this.http.get<string>(this._tokenPath).pipe(
+        return this._http.get<string>(this._tokenPath).pipe(
             switchMap((token) => {
                 this._cachedToken = token;
                 return of(this._cachedToken);
