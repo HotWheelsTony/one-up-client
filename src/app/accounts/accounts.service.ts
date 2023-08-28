@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { from, Observable, switchMap, map } from 'rxjs'
+import { Observable, switchMap, map, of } from 'rxjs'
 import { AccountResource } from '../models/resources/account-resource.interface';
 import { TransactionResource } from '../models/resources/transaction-resource.interface';
 import { ApiResponse } from '../models/api-response.interface';
@@ -19,13 +19,13 @@ export class AccountsService {
 
     private getToken(): Observable<string> {
         if (this._cachedToken) {
-            return from([this._cachedToken]);
+            return of(this._cachedToken);
         }
 
         return this.http.get(this._tokenPath, { responseType: 'text' }).pipe(
             switchMap((token) => {
                 this._cachedToken = token;
-                return from([token]);
+                return of(token);
             })
         );
     }
@@ -33,7 +33,7 @@ export class AccountsService {
     private amendHeaders(): Observable<HttpHeaders> {
         return this.getToken().pipe(
             switchMap((token) => {
-                return from([new HttpHeaders().set('Authorization', `Bearer ${token}`)]);
+                return of(new HttpHeaders().set('Authorization', `Bearer ${token}`));
             })
         );
     }
