@@ -1,4 +1,4 @@
-import { Relationship } from "../relationship.interface";
+import { Identifier } from "../identifier.interface";
 
 export interface CategoryResource {
     type: string;
@@ -10,10 +10,10 @@ export interface CategoryResource {
 
     relationships: {
         parent: {
-            data: Relationship
+            data: Identifier
         },
         children: {
-            data: Relationship[]
+            data: Identifier[]
         }
     };
 }

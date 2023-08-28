@@ -1,4 +1,5 @@
 import { MoneyObject } from "../money-object.interface";
+import { Identifier } from "../identifier.interface";
 
 enum TransactionStatus {
     HELD = 'held',
@@ -24,11 +25,11 @@ export interface TransactionResource {
     remainingBalance: number;
 
     attributes: {
-        status: TransactionStatus;
-        rawText?: string;
-        description: string;
-        message?: string;
-        isCategorizable: boolean;
+        status: TransactionStatus,
+        rawText?: string,
+        description: string,
+        message?: string,
+        isCategorizable: boolean,
         holdInfo: {
             amount: MoneyObject,
             foreignAmount?: MoneyObject
@@ -41,46 +42,31 @@ export interface TransactionResource {
             description: string,
             amount: MoneyObject
         }
-        amount: MoneyObject;
-        foreignAmount?: MoneyObject;
-        cardPurchaseMethod?: CardPurchaseMethod;
+        amount: MoneyObject,
+        foreignAmount?: MoneyObject,
+        cardPurchaseMethod?: CardPurchaseMethod,
 
-        settledAt?: string;
-        createdAt: string;
-    }
+        settledAt?: string,
+        createdAt: string,
+    };
 
     relationships: {
         account: {
-            data: {
-                type: string,
-                id: string
-            }
+            data: Identifier
         },
         transferAccount: {
-            data?: {
-                type: string,
-                id: string
-            }
+            data?: Identifier
         },
         category: {
-            data?: {
-                type: string,
-                id: string
-            }
+            data?: Identifier
         },
         parentCategory: {
-            data?: {
-                type: string,
-                id: string
-            }
+            data?: Identifier
         },
         tags: {
-            data: {
-                type: string,
-                id: string
-            }[]
+            data: Identifier[]
         }
-    }
+    };
 
     links: {
         self: string
