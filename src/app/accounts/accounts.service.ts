@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { from, Observable, switchMap, map } from 'rxjs'
-import { Account } from './account';
-import { Transaction } from '../transactions/transaction';
 import { AccountResource } from '../models/account-resource.interface';
-import { Links } from '../models/links.interface';
 import { TransactionResource } from '../models/transaction-resource.interface';
+import { ApiResponse } from '../models/api-response.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -40,23 +38,23 @@ export class AccountsService {
         );
     }
 
-    public listAccounts(): Observable<{ data: AccountResource[], links: Links }> {
+    public listAccounts(): Observable<ApiResponse<AccountResource[]>> {
         return this.amendHeaders().pipe(
             switchMap((headers) => {
-                return this.http.get<{ data: AccountResource[], links: Links }>(`${this._baseUrl}`, { headers }).pipe(
+                return this.http.get<ApiResponse<AccountResource[]>>(`${this._baseUrl}`, { headers }).pipe(
                     map((response) => ({
                         data: response.data as AccountResource[],
-                        links: response.links as Links
+                        links: response.links
                     }))
                 );
             })
         );
     }
 
-    public getAccount(id: string): Observable<{ data: AccountResource }> {
+    public getAccount(id: string): Observable<ApiResponse<AccountResource>> {
         return this.amendHeaders().pipe(
             switchMap((headers) => {
-                return this.http.get<{ data: AccountResource }>(`${this._baseUrl}/${id}`, { headers }).pipe(
+                return this.http.get<ApiResponse<AccountResource>>(`${this._baseUrl}/${id}`, { headers }).pipe(
                     map((response) => ({
                         data: response.data as AccountResource
                     }))
@@ -65,12 +63,12 @@ export class AccountsService {
         );
     }
 
-    public listTransactions(account: AccountResource): Observable<{ data: TransactionResource[], links: Links }> {
+    public listTransactions(account: AccountResource): Observable<ApiResponse<TransactionResource[]>> {
         return this.amendHeaders().pipe(
             switchMap((headers) => {
-                return this.http.get<{ data: TransactionResource[], links: Links }>(`${this._baseUrl}/${account.id}/transactions`, { headers }).pipe(
+                return this.http.get<ApiResponse<TransactionResource[]>>(`${this._baseUrl}/${account.id}/transactions`, { headers }).pipe(
                     map((response) => ({
-                        data: this.calculateRemainingBalances(account, response.data),
+                        data: this.calculateRemainingBalances(account, response.data) as TransactionResource[],
                         links: response.links
                     }))
                 );

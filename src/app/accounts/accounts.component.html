@@ -2,7 +2,7 @@
     <app-header title="Accounts"></app-header>
     <div *ngIf="accounts">
         <app-account-card *ngFor="let account of this.accounts" [account]="account"
-            (click)="navigateToTransactions(account.id)">
+            (click)="navigateToTransactions(account)">
         </app-account-card>
     </div>
 </div>
