@@ -17,17 +17,16 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     public account?: AccountResource;
     public transactions: TransactionResource[] = [];
 
-    private _accountSubscription: Subscription | null = null;
-    private _transactionsSubscription: Subscription | null = null;
+    private _accountSubscription?: Subscription;
+    private _transactionsSubscription?: Subscription;
 
 
     constructor(private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
 
     ngOnInit(): void {
-
         const accountId = this._activatedRoute.snapshot.paramMap.get('accountId');
         if (accountId) {
-            this.getAccountById(accountId);
+            this.getAccount(accountId);
         }
     }
 
@@ -36,16 +35,16 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         this._transactionsSubscription?.unsubscribe();
     }
 
-    private getAccountById(id: string) {
+    private getAccount(id: string) {
         this._accountSubscription = this._accountsService.getAccount(id).subscribe(
             (response) => {
                 this.account = response.data;
-                this.getTransactions(this.account);
+                this.listTransactions(this.account);
             }
         );
     }
 
-    private getTransactions(account: AccountResource) {
+    private listTransactions(account: AccountResource) {
         this._transactionsSubscription = this._accountsService.listTransactions(account).subscribe(
             (response) => {
                 this.transactions = response.data;
