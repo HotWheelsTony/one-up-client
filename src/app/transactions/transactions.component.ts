@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Account } from '../accounts/account';
 import { AccountsService } from '../accounts/accounts.service';
 import { Transaction } from './transaction';
 import { Subscription } from 'rxjs';
