@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { AccountResource } from '../models/account-resource.interface';
 
 @Component({
     selector: 'app-header',
@@ -14,13 +15,13 @@ export class AppHeaderComponent {
     title!: string;
 
     @Input()
-    subtitle: string | null = null;
+    subtitle?: string;
 
     @Input()
-    balance: number | null = null;
+    account?: AccountResource;
 
     @Input()
-    currency: string | null = null;
+    currency?: string;
 
     @Input()
     includeBackButton: boolean = false;

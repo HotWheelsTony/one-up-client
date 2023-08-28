@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Transaction } from '../transaction';
+import { TransactionResource } from 'src/app/models/transaction-resource.interface';
 
 @Component({
     selector: 'app-transaction-card',
@@ -8,5 +8,5 @@ import { Transaction } from '../transaction';
 })
 export class TransactionCardComponent {
     @Input()
-    public transaction!: Transaction;
+    public transaction!: TransactionResource;
 }

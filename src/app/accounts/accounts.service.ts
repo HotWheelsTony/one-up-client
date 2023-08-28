@@ -5,6 +5,7 @@ import { Account } from './account';
 import { Transaction } from '../transactions/transaction';
 import { AccountResource } from '../models/account-resource.interface';
 import { Links } from '../models/links.interface';
+import { TransactionResource } from '../models/transaction-resource.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -39,26 +40,7 @@ export class AccountsService {
         );
     }
 
-    // public getAccounts(): Observable<Account[]> {
-    //     return this.amendHeaders().pipe(
-    //         switchMap((headers) => {
-    //             return this.http.get(`${this._baseUrl}`, { headers }).pipe(
-    //                 switchMap((response: any) => {
-    //                     return from([response.data.map((account: any) => {
-    //                         return {
-    //                             id: account.id,
-    //                             name: account.attributes.displayName,
-    //                             value: account.attributes.balance.value,
-    //                             currency: account.attributes.balance.currencyCode,
-    //                         } as Account;
-    //                     })]) as Observable<Account[]>;
-    //                 })
-    //             );
-    //         })
-    //     );
-    // }
-
-    public getAccounts(): Observable<{ data: AccountResource[], links: Links }> {
+    public listAccounts(): Observable<{ data: AccountResource[], links: Links }> {
         return this.amendHeaders().pipe(
             switchMap((headers) => {
                 return this.http.get<{ data: AccountResource[], links: Links }>(`${this._baseUrl}`, { headers }).pipe(
@@ -71,45 +53,26 @@ export class AccountsService {
         );
     }
 
-    public getAccountById(id: string): Observable<Account> {
+    public getAccount(id: string): Observable<{ data: AccountResource }> {
         return this.amendHeaders().pipe(
             switchMap((headers) => {
-                return this.http.get(`${this._baseUrl}/${id}`, { headers }).pipe(
-                    switchMap((response: any) => {
-                        const account = response.data;
-                        return from([{
-                            id: account.id,
-                            name: account.attributes.displayName,
-                            value: account.attributes.balance.value,
-                            currency: account.attributes.balance.currencyCode,
-                        }]) as Observable<Account>;
-                    })
+                return this.http.get<{ data: AccountResource }>(`${this._baseUrl}/${id}`, { headers }).pipe(
+                    map((response) => ({
+                        data: response.data as AccountResource
+                    }))
                 );
             })
         );
     }
 
-    public getAccountTransactions(account: Account): Observable<Transaction[]> {
+    public listTransactions(account: AccountResource): Observable<{ data: TransactionResource[], links: Links }> {
         return this.amendHeaders().pipe(
             switchMap((headers) => {
-                return this.http.get(`${this._baseUrl}/${account.id}/transactions`, { headers }).pipe(
-                    switchMap((response: any) => {
-                        return from([this.calculateRemainingBalances(
-                            account,
-                            response.data.map((transaction: any) => {
-                                return {
-                                    id: transaction.id,
-                                    status: transaction.attributes.status,
-                                    message: transaction.attributes.message,
-                                    value: transaction.attributes.amount.value,
-                                    settledDate: transaction.attributes.settledAt,
-                                    createdDate: transaction.attributes.createdAt,
-                                    description: transaction.attributes.description,
-                                    currency: transaction.attributes.amount.currencyCode,
-                                } as Transaction;
-                            }))
-                        ]);
-                    })
+                return this.http.get<{ data: TransactionResource[], links: Links }>(`${this._baseUrl}/${account.id}/transactions`, { headers }).pipe(
+                    map((response) => ({
+                        data: this.calculateRemainingBalances(account, response.data),
+                        links: response.links
+                    }))
                 );
             })
         );
@@ -119,14 +82,14 @@ export class AccountsService {
         // Response.links.next
     }
 
-    private calculateRemainingBalances(account: Account, transactions: Transaction[]): Transaction[] {
+    private calculateRemainingBalances(account: AccountResource, transactions: TransactionResource[]): TransactionResource[] {
         for (let i = 0; i < transactions.length; i++) {
             const transaction = transactions[i];
             if (i === 0) {
-                transaction.remainingBalance = account.value;
+                transaction.remainingBalance = account.attributes.balance.valueInBaseUnits / 100;
             } else {
                 const nextChronoligicalTransaction = transactions[i - 1];
-                transaction.remainingBalance = nextChronoligicalTransaction.remainingBalance - nextChronoligicalTransaction.value;
+                transaction.remainingBalance = nextChronoligicalTransaction.remainingBalance - (nextChronoligicalTransaction.attributes.amount.valueInBaseUnits / 100);
             }
         }
         return transactions;

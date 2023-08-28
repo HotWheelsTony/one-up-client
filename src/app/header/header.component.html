@@ -6,8 +6,9 @@
             <span class="subtitle">{{ this.subtitle }} </span>
         </div>
     </div>
-    <div class="secondary-title">
-        <span [ngClass]="{'available-balance': this.balance && this.balance > 0}" class="balance">{{ this.balance |
+    <div *ngIf="this.account" class="secondary-title">
+        <span [ngClass]="{'available-balance': this.account.attributes.balance.valueInBaseUnits > 0}" class="balance">{{
+            this.account.attributes.balance.value |
             currency: '$'
             }}</span>
         <span class="currency">{{ this.currency }}</span>

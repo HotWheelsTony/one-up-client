@@ -4,6 +4,8 @@ import { Account } from '../accounts/account';
 import { AccountsService } from '../accounts/accounts.service';
 import { Transaction } from './transaction';
 import { Subscription } from 'rxjs';
+import { AccountResource } from '../models/account-resource.interface';
+import { TransactionResource } from '../models/transaction-resource.interface';
 
 @Component({
     selector: 'app-transactions',
@@ -12,8 +14,8 @@ import { Subscription } from 'rxjs';
 })
 export class TransactionsComponent implements OnInit, OnDestroy {
 
-    public account: Account | null = null;
-    public transactions: Transaction[] = [];
+    public account?: AccountResource;
+    public transactions: TransactionResource[] = [];
 
     private _accountSubscription: Subscription | null = null;
     private _transactionsSubscription: Subscription | null = null;
@@ -35,18 +37,19 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     }
 
     private getAccountById(id: string) {
-        this._accountSubscription = this._accountsService.getAccountById(id).subscribe(
-            (account) => {
-                this.account = account;
-                this.getTransactions(account);
+        this._accountSubscription = this._accountsService.getAccount(id).subscribe(
+            (response) => {
+                this.account = response.data;
+                this.getTransactions(this.account);
             }
         );
     }
 
-    private getTransactions(account: Account) {
-        this._transactionsSubscription = this._accountsService.getAccountTransactions(account).subscribe(
-            (transactions) => {
-                this.transactions = transactions;
+    private getTransactions(account: AccountResource) {
+        this._transactionsSubscription = this._accountsService.listTransactions(account).subscribe(
+            (response) => {
+                this.transactions = response.data;
+                console.log(this.account?.attributes.balance)
             }
         );
     }

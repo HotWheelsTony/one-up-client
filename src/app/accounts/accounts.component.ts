@@ -33,9 +33,10 @@ export class AccountsComponent implements OnInit, OnDestroy {
     }
 
     public getAccounts(): void {
-        this._accountsService.getAccounts().subscribe(
+        this._accountsService.listAccounts().subscribe(
             (response) => {
                 this.accounts = response.data;
+                response.data[0].attributes.balance.valueInBaseUnits;
             }
         );
     }
