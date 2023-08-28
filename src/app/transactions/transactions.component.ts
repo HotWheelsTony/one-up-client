@@ -19,6 +19,10 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
     private _accountSubscription?: Subscription;
     private _transactionsSubscription?: Subscription;
+    private _links?: {
+        prev?: string,
+        next?: string
+    }
 
 
     constructor(private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
@@ -48,7 +52,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         this._transactionsSubscription = this._accountsService.listTransactions(account).subscribe(
             (response) => {
                 this.transactions = response.data;
-                console.log(this.account?.attributes.balance)
+                this._links = response.links;
             }
         );
     }
