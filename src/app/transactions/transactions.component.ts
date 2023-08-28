@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AccountsService } from '../accounts/accounts.service';
 import { Subscription } from 'rxjs';
 import { AccountResource } from '../models/account-resource.interface';
