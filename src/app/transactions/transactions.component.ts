@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AccountsService } from '../accounts/accounts.service';
 import { Subscription } from 'rxjs';
-import { AccountResource } from '../models/account-resource.interface';
-import { TransactionResource } from '../models/transaction-resource.interface';
+import { AccountResource } from '../models/resources/account-resource.interface';
+import { TransactionResource } from '../models/resources/transaction-resource.interface';
 
 @Component({
     selector: 'app-transactions',

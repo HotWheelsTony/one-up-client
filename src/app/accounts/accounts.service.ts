@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { from, Observable, switchMap, map } from 'rxjs'
-import { AccountResource } from '../models/account-resource.interface';
-import { TransactionResource } from '../models/transaction-resource.interface';
+import { AccountResource } from '../models/resources/account-resource.interface';
+import { TransactionResource } from '../models/resources/transaction-resource.interface';
 import { ApiResponse } from '../models/api-response.interface';
 
 @Injectable({

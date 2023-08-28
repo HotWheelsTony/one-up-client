@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { TransactionResource } from 'src/app/models/transaction-resource.interface';
+import { TransactionResource } from 'src/app/models/resources/transaction-resource.interface';
 
 @Component({
     selector: 'app-transaction-card',

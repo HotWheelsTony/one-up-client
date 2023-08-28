@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { AccountResource } from '../models/account-resource.interface';
+import { AccountResource } from '../models/resources/account-resource.interface';
 
 @Component({
     selector: 'app-header',

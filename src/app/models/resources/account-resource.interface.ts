@@ -1,4 +1,4 @@
-import { MoneyObject } from "./money-object.interface";
+import { MoneyObject } from "../money-object.interface";
 
 enum OwnershipType {
     INDIVIDUAL = 'individual',
