@@ -1,21 +1,7 @@
 import { MoneyObject } from "../money-object.interface";
 import { Identifier } from "../identifier.interface";
-
-enum TransactionStatus {
-    HELD = 'held',
-    SETTLED = 'settled'
-}
-
-enum CardPurchaseMethod {
-    BAR_CODE = 'bar code',
-    OCR = 'ocr',
-    CARD_PIN = 'card pin',
-    CARD_DETAILS = 'card details',
-    CARD_ON_FILE = 'card on file',
-    ECOMMERCE = 'ecommerce',
-    MAGNETIC_STRIPE = 'magnetic stripe',
-    CONTACTLESS = 'contactless'
-}
+import { TransactionStatus } from "../transaction-status.enum";
+import { CardPurchaseMethod } from "../card-purchase-method.enum";
 
 export interface TransactionResource {
     type: string;
@@ -46,7 +32,7 @@ export interface TransactionResource {
         foreignAmount?: MoneyObject,
         cardPurchaseMethod?: CardPurchaseMethod,
 
-        settledAt?: string,
+        settledAt: string,
         createdAt: string,
     };
 

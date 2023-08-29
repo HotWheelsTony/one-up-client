@@ -7,7 +7,10 @@
             '$' }}</span>
     </div>
     <div class="details">
-        <span class="date">{{ this.transaction.attributes.settledAt | date }}</span>
+        <div class="date-and-status">
+            <span *ngIf="!this.settledAt" class="status">{{ this.transaction.attributes.status }} </span>
+            <span class="date">{{ this.displayDate | date }}</span>
+        </div>
         <span class="remaining-balance">{{ this.transaction.remainingBalance | currency: '$' }}</span>
     </div>
 </div>
