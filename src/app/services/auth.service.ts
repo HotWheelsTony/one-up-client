@@ -19,7 +19,7 @@ export class AuthService {
             return of(this._cachedToken);
         }
 
-        return this._http.get<string>(this._tokenPath).pipe(
+        return this._http.get(this._tokenPath, { responseType: 'text' }).pipe(
             switchMap((token) => {
                 this._cachedToken = token;
                 return of(this._cachedToken);
