@@ -52,4 +52,17 @@ export class TransactionsService {
         );
     }
 
+    public getNextPage(url: string) {
+        return this._authService.createHeaders().pipe(
+            switchMap((headers) => {
+                return this._http.get<ApiResponse<TransactionResource[]>>(url, { headers }).pipe(
+                    map((response) => ({
+                        data: response.data as TransactionResource[],
+                        links: response.links
+                    }))
+                );
+            })
+        );
+    }
+
 }

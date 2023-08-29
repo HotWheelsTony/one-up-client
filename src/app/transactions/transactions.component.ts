@@ -22,7 +22,6 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     private _transactionsSubscription?: Subscription;
 
 
-
     constructor(private _transactionsService: TransactionsService, private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
 
     ngOnInit(): void {
@@ -55,6 +54,14 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         );
     }
 
+    private loadMoreTransactions(url: string) {
+        this._transactionsService.getNextPage(url).subscribe(
+            (response) => {
+                this.response = response;
+                this.transactions.concat(response.data);
+            }
+        );
+    }
 
     private calculateRemainingBalances(account: AccountResource, transactions: TransactionResource[]): TransactionResource[] {
         for (let i = 0; i < transactions.length; i++) {
