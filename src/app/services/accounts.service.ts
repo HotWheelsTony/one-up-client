@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, switchMap, map } from 'rxjs'
 import { AccountResource } from '../models/resources/account-resource.interface';
 import { ApiResponse } from '../models/api-response.interface';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'
