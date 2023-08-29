@@ -2,7 +2,7 @@
     <app-header *ngIf="this.account" [includeBackButton]="true" icon="home"
         [title]="this.account.attributes.displayName" subtitle="Past transactions" [account]="this.account"
         [currency]="this.account.attributes.balance.currencyCode"></app-header>
-    <div class="transactions-list">
+    <div class="transactions-list" (scroll)="this.onScroll()">
         <app-transaction-card *ngFor="let transaction of this.transactions"
             [transaction]="transaction"></app-transaction-card>
     </div>

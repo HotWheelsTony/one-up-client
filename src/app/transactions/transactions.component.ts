@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AccountsService } from '../services/accounts.service';
 import { Subscription } from 'rxjs';
@@ -20,6 +20,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
     private _accountSubscription?: Subscription;
     private _transactionsSubscription?: Subscription;
+    private _shouldLoadNextPage = true;
 
 
     constructor(private _transactionsService: TransactionsService, private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
@@ -58,9 +59,26 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         this._transactionsService.getNextPage(url).subscribe(
             (response) => {
                 this.response = response;
-                this.transactions.concat(response.data);
+                this.transactions = this.calculateRemainingBalances(this.account!, this.transactions.concat(response.data));
+                this._shouldLoadNextPage = true;
+
             }
         );
+    }
+
+    @HostListener('window:scroll', ['$event'])
+    public onScroll() {
+
+        const nextPageUrl = this.response?.links?.next;
+        const pos = (document.documentElement.scrollTop || document.body.scrollTop) + document.documentElement.offsetHeight;
+        const max = document.documentElement.scrollHeight;
+        const scrollPercent = pos / max;
+
+        // 95% scrolled down the page
+        if (this._shouldLoadNextPage && scrollPercent > 0.95 && nextPageUrl) {
+            this._shouldLoadNextPage = false;
+            this.loadMoreTransactions(nextPageUrl)
+        }
     }
 
     private calculateRemainingBalances(account: AccountResource, transactions: TransactionResource[]): TransactionResource[] {
@@ -75,8 +93,6 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         }
         return transactions;
     }
-
-
 
 
 }
