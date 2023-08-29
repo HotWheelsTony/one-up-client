@@ -4,6 +4,8 @@ import { AccountsService } from '../accounts/accounts.service';
 import { Subscription } from 'rxjs';
 import { AccountResource } from '../models/resources/account-resource.interface';
 import { TransactionResource } from '../models/resources/transaction-resource.interface';
+import { ApiResponse } from '../models/api-response.interface';
+import { TransactionsService } from '../services/transactions.service';
 
 @Component({
     selector: 'app-transactions',
@@ -12,18 +14,16 @@ import { TransactionResource } from '../models/resources/transaction-resource.in
 })
 export class TransactionsComponent implements OnInit, OnDestroy {
 
+    public response?: ApiResponse<TransactionResource | TransactionResource[]>;
     public account?: AccountResource;
     public transactions: TransactionResource[] = [];
 
     private _accountSubscription?: Subscription;
     private _transactionsSubscription?: Subscription;
-    private _links?: {
-        prev?: string,
-        next?: string
-    }
 
 
-    constructor(private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
+
+    constructor(private _transactionsService: TransactionsService, private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
 
     ngOnInit(): void {
         const accountId = this._activatedRoute.snapshot.paramMap.get('accountId');
@@ -41,18 +41,32 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         this._accountSubscription = this._accountsService.getAccount(id).subscribe(
             (response) => {
                 this.account = response.data;
-                this.listTransactions(this.account);
+                this.listTransactions(this.account.id);
             }
         );
     }
 
-    private listTransactions(account: AccountResource) {
-        this._transactionsSubscription = this._accountsService.listTransactions(account).subscribe(
+    private listTransactions(accountId: string) {
+        this._transactionsSubscription = this._transactionsService.listAccountTransactions(accountId).subscribe(
             (response) => {
-                this.transactions = response.data;
-                this._links = response.links;
+                this.response = response;
+                this.transactions = this.calculateRemainingBalances(this.account!, response.data);
             }
         );
+    }
+
+
+    private calculateRemainingBalances(account: AccountResource, transactions: TransactionResource[]): TransactionResource[] {
+        for (let i = 0; i < transactions.length; i++) {
+            const transaction = transactions[i];
+            if (i === 0) {
+                transaction.remainingBalance = account.attributes.balance.valueInBaseUnits / 100;
+            } else {
+                const nextChronoligicalTransaction = transactions[i - 1];
+                transaction.remainingBalance = nextChronoligicalTransaction.remainingBalance - (nextChronoligicalTransaction.attributes.amount.valueInBaseUnits / 100);
+            }
+        }
+        return transactions;
     }
 
 
