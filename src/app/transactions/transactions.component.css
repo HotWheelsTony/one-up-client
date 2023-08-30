@@ -1,0 +1,8 @@
+.end {
+    display: flex;
+    justify-content: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: var(--primary-grey);
+    font-size: var(--font-size-small);
+}
