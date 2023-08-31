@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { TransactionResource } from 'src/app/models/resources/transaction-resource.interface';
-import { TransactionStatus } from 'src/app/models/transaction-status.enum';
 
 @Component({
     selector: 'app-transaction-card',

@@ -5,6 +5,7 @@
     --primary-orange: #ff9100;
     --primary-grey: #969696;
     --secondary-grey: #ededed;
+    --tertiary-grey: rgba(238, 238, 238, 0.464);
     --global-accent: green;
     --global-background: white;
 
@@ -24,5 +25,13 @@ body {
     padding-right: 15px;
     font-family: var(--global-font);
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
