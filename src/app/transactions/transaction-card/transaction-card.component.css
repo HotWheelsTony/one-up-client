@@ -14,10 +14,7 @@
     padding-top: 12px;
     padding-bottom: 5px;
 
-    .merchant {
-        font-size: var(--font-size-med);
-    }
-
+    .merchant,
     .transaction-amount {
         font-size: var(--font-size-med);
     }
@@ -35,40 +32,36 @@
     padding-bottom: 12px;
     border-bottom: var(--secondary-grey) solid 1px;
 
-    .status {
+    .status,
+    .date,
+    .remaining-balance {
         font-size: var(--font-size-small);
     }
-
-    .date {
-        font-size: var(--font-size-small);
-    }
-
 
     .remaining-balance {
         color: var(--primary-grey);
-        font-size: var(--font-size-small);
     }
+}
+
+.expanded-details {
+    display: none;
+    font-size: var(--font-size-small);
 }
 
 .active .expanded-details {
     display: flex;
     flex-direction: column;
-    font-size: var(--font-size-small);
-}
 
-.expanded-details {
-    display: none;
 }
 
 .expanded-details-item {
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
     padding-top: 5px;
     padding-bottom: 5px;
-    justify-content: space-between;
     border-bottom: var(--secondary-grey) solid 1px;
-}
 
-.expanded-details-item:last-child {
-    padding-bottom: 12px;
+    &:last-child {
+        padding-bottom: 12px;
+    }
 }
