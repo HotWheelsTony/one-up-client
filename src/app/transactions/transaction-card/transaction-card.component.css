@@ -1,10 +1,13 @@
 .card {
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
     padding-top: 12px;
     padding-bottom: 12px;
     border-bottom: var(--secondary-grey) solid 1px;
+
+    active {
+        background-color: aqua;
+    }
 }
 
 .transaction {

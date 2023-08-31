@@ -11,6 +11,9 @@ export class TransactionCardComponent {
     @Input()
     public transaction!: TransactionResource;
 
+    @Input()
+    public id!: number;
+
     public settledAt!: string;
     public createdAt!: string;
     public displayDate!: string;

@@ -2,7 +2,7 @@
     subtitle="Past transactions" [account]="this.account"
     [currency]="this.account.attributes.balance.currencyCode"></app-header>
 <div class="transactions-list" (scroll)="this.onScroll()">
-    <app-transaction-card *ngFor="let transaction of this.transactions"
+    <app-transaction-card *ngFor="let transaction of this.transactions" (click)="this.toggleAccordion(transaction)"
         [transaction]="transaction"></app-transaction-card>
     <span class="end">No more transactions to show</span>
 </div>
