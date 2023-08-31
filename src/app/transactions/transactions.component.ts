@@ -40,24 +40,19 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     public toggleAccordion(transaction: TransactionResource) {
         //collapse all class=card
         const id = transaction.id;
+
         //toggle clicked card
         document.getElementById(id)?.classList.toggle('active');
 
         //collapse all active cards, unless it's the clicked card
         const all = document.getElementsByClassName('active');
-        console.log(all);
-
 
         for (let i = 0; i < all.length; i++) {
             if (all[i].id !== id) {
                 all[i].classList.remove('active')
             }
 
-            // all[i].id === id ? all[i].classList.toggle('active') : all[i].classList.remove('active');
         }
-
-        //expand id = id
-
     }
 
     private getAccount(id: string) {

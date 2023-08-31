@@ -44,14 +44,14 @@
 }
 
 .expanded-details {
-    display: none;
+    max-height: 0;
+    overflow: hidden;
     font-size: var(--font-size-small);
+    transition: all 0.2s ease-in-out;
 }
 
 .active .expanded-details {
-    display: flex;
-    flex-direction: column;
-
+    max-height: 59px
 }
 
 .expanded-details-item {

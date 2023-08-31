@@ -23,5 +23,6 @@ export class TransactionCardComponent {
         this.settledAt = this.transaction.attributes.settledAt;
         this.createdAt = this.transaction.attributes.createdAt;
         this.displayDate = this.settledAt ? this.settledAt : this.createdAt;
+
     }
 }
