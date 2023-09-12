@@ -24,7 +24,10 @@ export class AppHeaderComponent {
     currency?: string;
 
     @Input()
-    includeBackButton: boolean = false;
+    backButton: boolean = false;
+
+    @Input()
+    moreOptions: boolean = false;
 
 
     public goBack(): void {
