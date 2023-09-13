@@ -24,10 +24,15 @@ export class MenuComponent {
 
 
     public toggle() {
-        console.log('toggling')
         this.isOpen = !this.isOpen;
     }
 
+    @HostListener('document:click', ['$event'])
+    public onDocumentClick(event: MouseEvent) {
+        if (this.isOpen && !(event.target as HTMLElement).closest('.overlay-menu')) {
+            this.isOpen = false;
+        }
+    }
 
 
 }
