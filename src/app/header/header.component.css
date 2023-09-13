@@ -57,8 +57,4 @@
         }
     }
 
-    & .more-options-icon {
-        font-size: var(--font-size-header);
-        padding-left: 15px;
-    }
 }

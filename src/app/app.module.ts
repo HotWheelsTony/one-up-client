@@ -11,6 +11,10 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { TransactionCardComponent } from './transactions/transaction-card/transaction-card.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MenuComponent } from './menu/menu.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 
 
 @NgModule({
@@ -21,13 +25,15 @@ import { MatIconModule } from '@angular/material/icon';
         ButtonComponent,
         TransactionsComponent,
         AccountsComponent,
-        TransactionCardComponent
+        TransactionCardComponent,
+        MenuComponent,
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
         MatIconModule,
+        BrowserAnimationsModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
