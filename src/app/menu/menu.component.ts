@@ -29,10 +29,12 @@ export class MenuComponent {
 
     @HostListener('document:click', ['$event'])
     public onDocumentClick(event: MouseEvent) {
-        if (this.isOpen && !(event.target as HTMLElement).closest('.overlay-menu')) {
+        // Close the menu if anywhere else on the screen is clicked/tapped
+        if (!(event.target as HTMLElement).matches('.menu-trigger')) {
             this.isOpen = false;
         }
     }
+
 
 
 }

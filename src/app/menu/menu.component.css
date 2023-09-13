@@ -30,7 +30,7 @@
     flex-direction: column;
 }
 
-.more-options-icon {
+.menu-trigger {
     font-size: var(--font-size-header);
     padding-left: 15px;
 }

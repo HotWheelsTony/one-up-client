@@ -1,5 +1,5 @@
 <div class="overlay-menu">
-    <mat-icon (click)="this.toggle()" class="more-options-icon">more_vert</mat-icon>
+    <mat-icon (click)="this.toggle()" class="menu-trigger">more_vert</mat-icon>
     <div class="menu-content" [ngClass]="{'open': isOpen}">
         <span class="menu-item" *ngFor="let item of this.menuItems" (click)="item.function()">
             {{ item.name }}
