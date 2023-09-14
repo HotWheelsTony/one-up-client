@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { AccountResource } from '../models/resources/account-resource.interface';
 
 @Component({
@@ -9,10 +9,10 @@ import { AccountResource } from '../models/resources/account-resource.interface'
 })
 export class AppHeaderComponent {
 
-    constructor(private _router: Router) { }
+    constructor(private _location: Location) { }
 
     @Input()
-    title!: string;
+    title?: string;
 
     @Input()
     subtitle?: string;
@@ -29,9 +29,15 @@ export class AppHeaderComponent {
     @Input()
     moreOptions: boolean = false;
 
+    @Input()
+    menuItems?: {
+        name: string;
+        function: Function;
+    }[];
+
 
     public goBack(): void {
-        this._router.navigate(['..']);
+        this._location.back();
     }
 
 }

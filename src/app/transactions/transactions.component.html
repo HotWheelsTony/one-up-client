@@ -1,6 +1,6 @@
-<app-header *ngIf="this.account" [backButton]="true" [moreOptions]="true" icon="home"
-    [title]="this.account.attributes.displayName" subtitle="Past transactions" [account]="this.account"
-    [currency]="this.account.attributes.balance.currencyCode"></app-header>
+<app-header [backButton]="true" [moreOptions]="true" icon="home" [title]="this.account?.attributes?.displayName"
+    subtitle="Past transactions" [account]="this.account" [currency]="this.account?.attributes?.balance?.currencyCode"
+    [menuItems]="this.menuItems"></app-header>
 <div class="transactions-list" (scroll)="this.onScroll()">
     <app-transaction-card *ngFor="let transaction of this.transactions" (click)="this.toggleAccordion(transaction)"
         [transaction]="transaction"></app-transaction-card>

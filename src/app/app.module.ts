@@ -13,6 +13,7 @@ import { TransactionCardComponent } from './transactions/transaction-card/transa
 import { MatIconModule } from '@angular/material/icon';
 import { MenuComponent } from './menu/menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InsightsComponent } from './insights/insights/insights.component';
 
 
 
@@ -27,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         AccountsComponent,
         TransactionCardComponent,
         MenuComponent,
+        InsightsComponent,
     ],
     imports: [
         BrowserModule,

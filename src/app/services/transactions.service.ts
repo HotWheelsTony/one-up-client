@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable, switchMap, map } from 'rxjs';
@@ -27,10 +27,13 @@ export class TransactionsService {
         );
     }
 
-    public listAccountTransactions(accountId: string): Observable<ApiResponse<TransactionResource[]>> {
+    // Maximum of 100 results per page
+    public listAccountTransactions(accountId: string, resultsPerPage: string = '20'): Observable<ApiResponse<TransactionResource[]>> {
+        const params = new HttpParams().set('page[size]', resultsPerPage);
+
         return this._authService.createHeaders().pipe(
             switchMap((headers) => {
-                return this._http.get<ApiResponse<TransactionResource[]>>(`${this._baseUrl}/accounts/${accountId}/transactions`, { headers }).pipe(
+                return this._http.get<ApiResponse<TransactionResource[]>>(`${this._baseUrl}/accounts/${accountId}/transactions`, { headers, params }).pipe(
                     map((response) => ({
                         data: response.data as TransactionResource[],
                         links: response.links
@@ -52,10 +55,13 @@ export class TransactionsService {
         );
     }
 
-    public getNextPage(url: string) {
+    // Maximum of 100 results per page
+    public getNextPage(url: string, resultsPerPage: string = '20') {
+        const params = new HttpParams().set('page[size]', resultsPerPage);
+
         return this._authService.createHeaders().pipe(
             switchMap((headers) => {
-                return this._http.get<ApiResponse<TransactionResource[]>>(url, { headers }).pipe(
+                return this._http.get<ApiResponse<TransactionResource[]>>(url, { headers, params }).pipe(
                     map((response) => ({
                         data: response.data as TransactionResource[],
                         links: response.links

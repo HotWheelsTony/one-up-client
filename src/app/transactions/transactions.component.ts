@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountsService } from '../services/accounts.service';
 import { Subscription } from 'rxjs';
 import { AccountResource } from '../models/resources/account-resource.interface';
@@ -20,10 +20,22 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
     private _accountSubscription?: Subscription;
     private _transactionsSubscription?: Subscription;
+    private _nextPageSubscription?: Subscription;
     private _shouldLoadNextPage = true;
 
 
-    constructor(private _transactionsService: TransactionsService, private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
+    public menuItems = [{
+        name: 'Search',
+        function: () => this._router.navigate(['']),
+    },
+    {
+        name: 'Insights',
+        function: () => this._router.navigate([this.account?.id, 'insights']),
+    },
+    ];
+
+
+    constructor(private _router: Router, private _transactionsService: TransactionsService, private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
 
     ngOnInit(): void {
         const accountId = this._activatedRoute.snapshot.paramMap.get('accountId');
@@ -35,6 +47,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._accountSubscription?.unsubscribe();
         this._transactionsSubscription?.unsubscribe();
+        this._nextPageSubscription?.unsubscribe();
     }
 
     public toggleAccordion(transaction: TransactionResource) {
@@ -74,7 +87,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     }
 
     private loadMoreTransactions(url: string) {
-        this._transactionsService.getNextPage(url).subscribe(
+        this._nextPageSubscription = this._transactionsService.getNextPage(url).subscribe(
             (response) => {
                 this.response = response;
                 this.transactions = this.calculateRemainingBalances(this.account!, this.transactions.concat(response.data));
@@ -86,7 +99,6 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
     @HostListener('window:scroll', ['$event'])
     public onScroll() {
-
         const nextPageUrl = this.response?.links?.next;
         const pos = (document.documentElement.scrollTop || document.body.scrollTop) + document.documentElement.offsetHeight;
         const max = document.documentElement.scrollHeight;

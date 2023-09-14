@@ -12,15 +12,7 @@ export class MenuComponent {
     public menuItems: {
         name: string;
         function: Function;
-    }[] = [{
-        name: 'Search',
-        function: () => console.log('Search clicked!'),
-    },
-    {
-        name: 'Insights',
-        function: () => console.log('Insights clicked!')
-    },
-        ];
+    }[] = [];
 
 
     public toggle() {

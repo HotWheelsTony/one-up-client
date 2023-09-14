@@ -15,6 +15,6 @@
                 }}</span>
             <span class="currency">{{ this.currency }}</span>
         </div>
-        <app-menu></app-menu>
+        <app-menu *ngIf="this.menuItems" [menuItems]="this.menuItems"></app-menu>
     </div>
 </div>
