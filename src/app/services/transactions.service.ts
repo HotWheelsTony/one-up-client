@@ -28,8 +28,11 @@ export class TransactionsService {
     }
 
     // Maximum of 100 results per page
-    public listAccountTransactions(accountId: string, resultsPerPage: string = '20'): Observable<ApiResponse<TransactionResource[]>> {
-        const params = new HttpParams().set('page[size]', resultsPerPage);
+    public listAccountTransactions(accountId: string, resultsPerPage: string = '20', since: string = new Date(0).toISOString(), until: string = new Date().toISOString()): Observable<ApiResponse<TransactionResource[]>> {
+        const params = new HttpParams()
+            .set('page[size]', resultsPerPage)
+            .set('filter[since]', since)
+            .set('filter[until]', until);
 
         return this._authService.createHeaders().pipe(
             switchMap((headers) => {

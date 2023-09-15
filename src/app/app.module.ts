@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MenuComponent } from './menu/menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InsightsComponent } from './insights/insights/insights.component';
+import { BarChartComponent } from './insights/bar-chart/bar-chart.component';
 
 
 
@@ -29,6 +30,7 @@ import { InsightsComponent } from './insights/insights/insights.component';
         TransactionCardComponent,
         MenuComponent,
         InsightsComponent,
+        BarChartComponent,
     ],
     imports: [
         BrowserModule,
