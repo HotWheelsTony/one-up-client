@@ -24,7 +24,10 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
     public since: Date = new Date();
     public until: Date = new Date();
-    public month: string = this._monthNames[new Date().getMonth()];
+    public sinceMonth: string | null = null;
+    public untilMonth: string = this._monthNames[new Date().getMonth()];
+
+
     public response?: ApiResponse<TransactionResource | TransactionResource[]>;
     public account?: AccountResource;
     public offset: number = 0;
@@ -106,6 +109,8 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
         this.since = since;
         this.until = until;
+        this.sinceMonth = since.getMonth() === until.getMonth() ? null : this._monthNames[since.getMonth()];
+        this.untilMonth = this._monthNames[until.getMonth()];
 
         // console.log(since);
         // console.log(until);
@@ -169,7 +174,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
         data.addRows(Array.from(this.chartData));
 
         const options = {
-            title: `${this.timeframe}ly spending`,
             legend: 'none',
             hAxis: {
 

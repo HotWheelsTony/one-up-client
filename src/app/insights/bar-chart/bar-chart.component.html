@@ -1,7 +1,7 @@
 <div class="chart-container">
     <div class="controls">
         <mat-icon (click)="this.previousPeriod()">arrow_back_ios</mat-icon>
-        <span>{{ this.since.getDate() }} - {{ this.until.getDate() }} {{ this.month }}</span>
+        <span>{{ this.since.getDate() }} {{ this.sinceMonth }} - {{ this.until.getDate() }} {{ this.untilMonth}}</span>
         <mat-icon (click)="this.nextPeriod()">arrow_forward_ios</mat-icon>
     </div>
     <div id="spending-chart" style="width: 100%; height: 300px;"></div>
