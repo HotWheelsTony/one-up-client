@@ -20,13 +20,9 @@ export class BarChartComponent implements OnInit, OnDestroy {
     private _transactionsSubscription?: Subscription;
     private _nextPageSubscription?: Subscription;
     private _dayNames: string[] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    private _monthNames: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
     public since: Date = new Date();
     public until: Date = new Date();
-    public sinceMonth: string | null = null;
-    public untilMonth: string = this._monthNames[new Date().getMonth()];
-
 
     public response?: ApiResponse<TransactionResource | TransactionResource[]>;
     public account?: AccountResource;
@@ -55,6 +51,8 @@ export class BarChartComponent implements OnInit, OnDestroy {
         this.chartData = value;
         //redraw chart
         this.drawChart();
+        console.log(this._transactions);
+
     }
 
     private getAccount(id: string) {
@@ -74,9 +72,14 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
         for (const transaction of transactions) {
             const transactionAmount = transaction.attributes.amount.valueInBaseUnits;
+            const isTransfer: boolean = transaction.attributes.description.toLowerCase().includes('transfer');
 
-            //ignore positive transactions for now
-            if (transactionAmount > 0) {
+
+            //ignore positive transactions and internal transfers for now
+            if (transactionAmount > 0 || isTransfer) {
+                // console.log(transaction.attributes.description.toLowerCase().includes('transfer'));
+                // console.log(transaction);
+
                 continue;
             }
 
@@ -85,7 +88,9 @@ export class BarChartComponent implements OnInit, OnDestroy {
             const dailyTotal = dailyTotals.get(day);
 
             if (dailyTotal !== undefined) {
-                dailyTotals.set(day, Math.abs(dailyTotal + (transactionAmount / 100)));
+                console.log(dailyTotals);
+
+                dailyTotals.set(day, dailyTotal + Math.abs(transactionAmount / 100));
             }
 
         }
@@ -109,8 +114,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
         this.since = since;
         this.until = until;
-        this.sinceMonth = since.getMonth() === until.getMonth() ? null : this._monthNames[since.getMonth()];
-        this.untilMonth = this._monthNames[until.getMonth()];
 
         // console.log(since);
         // console.log(until);
@@ -126,8 +129,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
                             this.getNextPage(response.links.next);
                         } else {
                             this.setChartData(this.transformData(this._transactions));
-                            console.log("updating chart");
-
                         }
                     }
                 );

@@ -1,26 +1,26 @@
-<div class="card" id="{{this.transaction.id}}">
+<div class="card" id="{{transaction.id}}">
     <div class="transaction">
-        <span class="merchant">{{ this.transaction.attributes.description }}</span>
-        <span [ngClass]="{'positive-transaction': this.transaction.attributes.amount.valueInBaseUnits > 0}"
+        <span class="merchant">{{ transaction.attributes.description }}</span>
+        <span [ngClass]="{'positive-transaction': transaction.attributes.amount.valueInBaseUnits > 0}"
             class="transaction-amount">{{
-            this.transaction.attributes.amount.value | currency:
+            transaction.attributes.amount.value | currency:
             '$' }}</span>
     </div>
     <div class="details">
         <div class="date-and-status">
-            <span *ngIf="!this.settledAt" class="status">{{ this.transaction.attributes.status }} </span>
-            <span class="date">{{ this.displayDate | date }}</span>
+            <span *ngIf="!settledAt" class="status">{{ transaction.attributes.status }} </span>
+            <span class="date">{{ displayDate | date }}</span>
         </div>
-        <span class="remaining-balance">{{ this.transaction.remainingBalance | currency: '$' }}</span>
+        <span class="remaining-balance">{{ transaction.remainingBalance | currency: '$' }}</span>
     </div>
     <div class="expanded-details">
         <div class="expanded-details-item">
             <span>Date</span>
-            <span>{{ this.transaction.attributes.createdAt | date: 'EEE, d MMM y hh:mm a' }}</span>
+            <span>{{ transaction.attributes.createdAt | date: 'EEE, d MMM y hh:mm a' }}</span>
         </div>
         <div class="expanded-details-item">
             <span>Their account:</span>
-            <span>{{ this.transaction.attributes.description }}</span>
+            <span>{{ transaction.attributes.description }}</span>
         </div>
     </div>
 </div>
