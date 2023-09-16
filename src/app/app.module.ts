@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './header/header.component';
 import { AccountCardComponent } from './accounts/account-card/account-card.component';
-import { ButtonComponent } from './button/button.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { TransactionCardComponent } from './transactions/transaction-card/transaction-card.component';
@@ -24,7 +23,6 @@ import { BarChartComponent } from './insights/bar-chart/bar-chart.component';
         AppComponent,
         AppHeaderComponent,
         AccountCardComponent,
-        ButtonComponent,
         TransactionsComponent,
         AccountsComponent,
         TransactionCardComponent,

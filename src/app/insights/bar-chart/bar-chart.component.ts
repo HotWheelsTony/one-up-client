@@ -100,24 +100,37 @@ export class BarChartComponent implements OnInit, OnDestroy {
     }
 
     //time frame can be week month of year, offset represents how far back the timeframe is, i.e. last week or the week before
-    private getTransactionsInDateRange(timeframe: string, offset: number) {
-        let since = new Date();
-        let until = new Date();
+    private getTransactionsInDateRange(timeframe: Timeframe, offset: number) {
+        const since = new Date();
+        since.setHours(0, 0, 0, 0);
+        let until = new Date(since);
 
-        if (timeframe === Timeframe.week) {
-            since.setDate(since.getDate() - (since.getDay() - 1) - (offset * 7));
-            since.setHours(0, 0, 0, 0);
-
-            until = new Date(since);
-            until.setDate(until.getDate() + 6);
-
+        switch (timeframe) {
+            case Timeframe.week:
+                since.setDate(since.getDate() - (since.getDay() - 1) - (offset * 7));
+                until.setDate(until.getDate() + 6);
+                break;
+            case Timeframe.month:
+                since.setDate(1);
+                since.setMonth(since.getMonth() - offset);
+                until.setMonth(since.getMonth() + 1)
+                until.setDate(0);
+                break;
+            case Timeframe.year:
+                since.setFullYear(since.getFullYear() - offset);
+                since.setMonth(0);
+                since.setDate(1);
+                until.setFullYear(since.getFullYear() + 1);
+                until.setMonth(0);
+                until.setDate(0);
+                break;
+            default:
+                console.log("Invalid timeframe: ", timeframe);
+                return;
         }
 
         this.since = since;
         this.until = until;
-
-        // console.log(since);
-        // console.log(until);
 
         if (this.account) {
             this._transactionsSubscription = this._transactionsService.listAccountTransactions(this.account?.id, '100',
