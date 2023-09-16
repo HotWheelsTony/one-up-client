@@ -152,6 +152,11 @@ export class BarChartComponent implements OnInit, OnDestroy {
         );
     }
 
+    public setTimeframe(tf: Timeframe) {
+        this.timeframe = tf;
+        this.getTransactionsInDateRange(this.timeframe, this.offset);
+    }
+
     public nextPeriod() {
         this.offset = this.offset > 0 ? this.offset - 1 : this.offset;
         this.getTransactionsInDateRange(this.timeframe, this.offset);

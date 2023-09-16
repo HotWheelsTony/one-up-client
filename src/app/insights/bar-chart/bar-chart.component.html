@@ -1,8 +1,17 @@
 <div class="chart-container">
     <div class="timeframe-controls">
-        <span>{{ timeframeEnum.week }}</span>
-        <span>{{ timeframeEnum.month }}</span>
-        <div>{{ timeframeEnum.year }}</div>
+        <div class="timeframe" [ngClass]="{active: timeframe === timeframeEnum.week}">
+            <span (click)="setTimeframe(timeframeEnum.week)">{{
+                timeframeEnum.week }}</span>
+        </div>
+        <div class="timeframe" [ngClass]="{active: timeframe === timeframeEnum.month}">
+            <span (click)="setTimeframe(timeframeEnum.month)">{{
+                timeframeEnum.month }}</span>
+        </div>
+        <div class="timeframe" [ngClass]="{active: timeframe === timeframeEnum.year}">
+            <span (click)="setTimeframe(timeframeEnum.year)">{{
+                timeframeEnum.year }}</span>
+        </div>
     </div>
     <div class="period-controls">
         <mat-icon (click)="previousPeriod()">arrow_back_ios</mat-icon>
