@@ -1,11 +1,25 @@
 .chart-container {
     font-size: var(--font-size-med);
+    padding-top: 25px;
 }
 
-.controls {
+.timeframe-controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 30px;
+}
+
+.period-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+}
+
+.period-total {
+    display: flex;
+    justify-content: center;
 }
 
 .spending-chart {

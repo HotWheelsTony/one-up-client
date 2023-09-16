@@ -8,6 +8,12 @@ import { AccountResource } from 'src/app/models/resources/account-resource.inter
 import { ApiResponse } from 'src/app/models/api-response.interface';
 declare var google: any;
 
+enum Timeframe {
+    week = 'Week',
+    month = 'Month',
+    year = 'Year'
+}
+
 @Component({
     selector: 'app-bar-chart',
     templateUrl: './bar-chart.component.html',
@@ -27,8 +33,10 @@ export class BarChartComponent implements OnInit, OnDestroy {
     public response?: ApiResponse<TransactionResource | TransactionResource[]>;
     public account?: AccountResource;
     public offset: number = 0;
-    public timeframe: string = 'week';
+    public timeframeEnum = Timeframe;
+    public timeframe: Timeframe = Timeframe.week;
     public chartData: Map<string, number> = new Map();
+    public periodTotal: number = 0;
 
     constructor(private _transactionsService: TransactionsService, private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
 
@@ -47,12 +55,11 @@ export class BarChartComponent implements OnInit, OnDestroy {
         this._nextPageSubscription?.unsubscribe();
     }
 
-    private setChartData(value: Map<string, number>) {
-        this.chartData = value;
+    private setChartData(spendMap: Map<string, number>) {
+        this.periodTotal = Array.from(spendMap.values()).reduce((sum, num) => sum + num, 0);
+        this.chartData = spendMap;
         //redraw chart
         this.drawChart();
-        console.log(this._transactions);
-
     }
 
     private getAccount(id: string) {
@@ -74,12 +81,8 @@ export class BarChartComponent implements OnInit, OnDestroy {
             const transactionAmount = transaction.attributes.amount.valueInBaseUnits;
             const isTransfer: boolean = transaction.attributes.description.toLowerCase().includes('transfer');
 
-
             //ignore positive transactions and internal transfers for now
             if (transactionAmount > 0 || isTransfer) {
-                // console.log(transaction.attributes.description.toLowerCase().includes('transfer'));
-                // console.log(transaction);
-
                 continue;
             }
 
@@ -88,8 +91,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
             const dailyTotal = dailyTotals.get(day);
 
             if (dailyTotal !== undefined) {
-                console.log(dailyTotals);
-
                 dailyTotals.set(day, dailyTotal + Math.abs(transactionAmount / 100));
             }
 
@@ -103,7 +104,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
         let since = new Date();
         let until = new Date();
 
-        if (timeframe === 'week') {
+        if (timeframe === Timeframe.week) {
             since.setDate(since.getDate() - (since.getDay() - 1) - (offset * 7));
             since.setHours(0, 0, 0, 0);
 
@@ -173,6 +174,8 @@ export class BarChartComponent implements OnInit, OnDestroy {
         data.addColumn('string', 'Day');
         data.addColumn('number', 'Amount spent');
         data.addRows(Array.from(this.chartData));
+        console.log(Array.from(this.chartData));
+
 
         const options = {
             legend: 'none',
