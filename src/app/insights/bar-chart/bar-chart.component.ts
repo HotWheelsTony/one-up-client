@@ -25,17 +25,20 @@ export class BarChartComponent implements OnInit, OnDestroy {
     private _accountSubscription?: Subscription;
     private _transactionsSubscription?: Subscription;
     private _nextPageSubscription?: Subscription;
-    private _dayNames: string[] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    private _daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    private _monthsOfYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 
     public since: Date = new Date();
     public until: Date = new Date();
 
     public response?: ApiResponse<TransactionResource | TransactionResource[]>;
     public account?: AccountResource;
+
     public offset: number = 0;
     public timeframeEnum = Timeframe;
     public timeframe: Timeframe = Timeframe.week;
-    public chartData: Map<string, number> = new Map();
+    public chartData: [string, number][] = [];
     public periodTotal: number = 0;
 
     constructor(private _transactionsService: TransactionsService, private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
@@ -55,12 +58,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
         this._nextPageSubscription?.unsubscribe();
     }
 
-    private setChartData(spendMap: Map<string, number>) {
-        this.periodTotal = Array.from(spendMap.values()).reduce((sum, num) => sum + num, 0);
-        this.chartData = spendMap;
-        //redraw chart
-        this.drawChart();
-    }
 
     private getAccount(id: string) {
         this._accountSubscription = this._accountsService.getAccount(id).subscribe(
@@ -71,43 +68,104 @@ export class BarChartComponent implements OnInit, OnDestroy {
         );
     }
 
-    private transformData(transactions: TransactionResource[]): Map<string, number> {
-        const dailyTotals = new Map<string, number>();
-        for (const day of this._dayNames) {
-            dailyTotals.set(day, 0);
-        }
+
+    private updateChart() {
+        //map the transaction array to a map<dayofweek/dayofmonth/monthofyear, amount spent>
+        const spendingMap = this.mapTransactions(this._transactions);
+
+        //convert the map to a 2d array for the char to consume the data
+        const spendingArray = Array.from(spendingMap);
+
+        //set the total spend for this period
+        this.periodTotal = Array.from(spendingMap.values()).reduce((sum, num) => sum + num, 0);
+
+        //set the array as the chart data
+        this.chartData = spendingArray;
+
+        //redraw chart
+        this.drawChart();
+    }
+
+
+    private mapTransactions(transactions: TransactionResource[]): Map<string, number> {
+        //set all entries in chart data to 0
+        const totals = this.initializeChartData();
 
         for (const transaction of transactions) {
-            const transactionAmount = transaction.attributes.amount.valueInBaseUnits;
+            const txnAmount = transaction.attributes.amount.valueInBaseUnits;
+            const txnDate = transaction.attributes.createdAt;
             const isTransfer: boolean = transaction.attributes.description.toLowerCase().includes('transfer');
 
             //ignore positive transactions and internal transfers for now
-            if (transactionAmount > 0 || isTransfer) {
+            if (txnAmount > 0 || isTransfer) {
                 continue;
             }
 
-            //minus 1 becasue we're using monday as the first day of the week
-            const day = this._dayNames[new Date(transaction.attributes.createdAt).getDay() - 1];
-            const dailyTotal = dailyTotals.get(day);
+            let currtotal;
+            let key;
 
-            if (dailyTotal !== undefined) {
-                dailyTotals.set(day, dailyTotal + Math.abs(transactionAmount / 100));
+            switch (this.timeframe) {
+                case Timeframe.week:
+                    // minus 1 becasue we're using monday as the first day of the week
+                    key = this._daysOfWeek[(new Date(txnDate).getDay() + 6) % 7];
+                    break;
+                case Timeframe.month:
+                    key = new Date(txnDate).getDate().toString();
+                    break;
+                case Timeframe.year:
+                    key = this._monthsOfYear[new Date(txnDate).getMonth()];
+                    break;
+                default:
+                    console.log('Invalid timeframe: ', this.timeframe);
+                    return totals;
             }
 
+            currtotal = totals.get(key);
+
+            if (currtotal !== undefined) {
+                totals.set(key, currtotal + Math.abs(txnAmount / 100));
+            }
         }
 
-        return dailyTotals;
+        return totals;
     }
+
+
+    private initializeChartData(): Map<string, number> {
+        const newChartData = new Map<string, number>();
+
+        switch (this.timeframe) {
+            case Timeframe.week:
+                for (const day of this._daysOfWeek) {
+                    newChartData.set(day, 0);
+                }
+                return newChartData;
+            case Timeframe.month:
+                for (let i = 0; i < this.until.getDate(); i++) {
+                    newChartData.set(i.toString(), 0);
+                }
+                return newChartData;
+            case Timeframe.year:
+                for (const month of this._monthsOfYear) {
+                    newChartData.set(month, 0);
+                }
+                return newChartData;
+            default:
+                console.log("Invalid timeframe: ", this.timeframe);
+                return newChartData;
+        }
+    }
+
 
     //time frame can be week month of year, offset represents how far back the timeframe is, i.e. last week or the week before
     private getTransactionsInDateRange(timeframe: Timeframe, offset: number) {
         const since = new Date();
-        since.setHours(0, 0, 0, 0);
-        let until = new Date(since);
+        let until = new Date();
 
         switch (timeframe) {
             case Timeframe.week:
-                since.setDate(since.getDate() - (since.getDay() - 1) - (offset * 7));
+                since.setDate(since.getDate() - ((since.getDay() + 6) % 7) - (offset * 7));
+                until = new Date(since);
                 until.setDate(until.getDate() + 6);
                 break;
             case Timeframe.month:
@@ -129,6 +187,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
                 return;
         }
 
+        since.setHours(0, 0, 0, 0);
         this.since = since;
         this.until = until;
 
@@ -142,12 +201,13 @@ export class BarChartComponent implements OnInit, OnDestroy {
                         if (response.links?.next) {
                             this.getNextPage(response.links.next);
                         } else {
-                            this.setChartData(this.transformData(this._transactions));
+                            this.updateChart();
                         }
                     }
                 );
         }
     }
+
 
     private getNextPage(url: string) {
         this._nextPageSubscription = this._transactionsService.getNextPage(url, '100').subscribe(
@@ -158,22 +218,26 @@ export class BarChartComponent implements OnInit, OnDestroy {
                 if (response.links?.next) {
                     this.getNextPage(response.links.next);
                 } else {
-                    this.setChartData(this.transformData(this._transactions));
+                    this.updateChart();
                 }
 
             }
         );
     }
 
+
     public setTimeframe(tf: Timeframe) {
         this.timeframe = tf;
+        this.offset = 0;
         this.getTransactionsInDateRange(this.timeframe, this.offset);
     }
+
 
     public nextPeriod() {
         this.offset = this.offset > 0 ? this.offset - 1 : this.offset;
         this.getTransactionsInDateRange(this.timeframe, this.offset);
     }
+
 
     public previousPeriod() {
         this.offset++;
@@ -186,14 +250,14 @@ export class BarChartComponent implements OnInit, OnDestroy {
         google.charts.setOnLoadCallback(() => this.drawChart());
     }
 
+
     drawChart() {
         const data = new google.visualization.DataTable();
 
         data.addColumn('string', 'Day');
         data.addColumn('number', 'Amount spent');
-        data.addRows(Array.from(this.chartData));
-        console.log(Array.from(this.chartData));
 
+        data.addRows(this.chartData);
 
         const options = {
             legend: 'none',
@@ -211,4 +275,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
         chart.draw(data, options);
     }
+
+
 }
