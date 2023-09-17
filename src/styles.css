@@ -3,11 +3,12 @@
 
     /* COLORS */
     --primary-font-color: black;
-    --primary-orange: #ff9100;
     --primary-grey: #969696;
     --secondary-grey: #ededed;
     --tertiary-grey: rgba(238, 238, 238, 0.464);
     --global-accent: rgb(49, 177, 49);
+    --global-accent-secondary: rgb(0, 131, 0);
+
     /* This doesn't work with passing in the global accent smh */
     --global-accent-transparent: rgba(49, 177, 49, 0.3);
     --global-background: white;

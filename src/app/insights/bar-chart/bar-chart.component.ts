@@ -246,7 +246,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
 
     loadGoogleCharts() {
-        google.charts.load('current', { packages: ['corechart'] });
+        google.charts.load('current', { packages: ['coreChart'] });
         google.charts.setOnLoadCallback(() => this.drawChart());
     }
 
@@ -259,19 +259,35 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
         data.addRows(this.chartData);
 
-        const options = {
-            legend: 'none',
-            hAxis: {
+        const barColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-grey');
+        const globalFont = getComputedStyle(document.documentElement).getPropertyValue('--global-font');
+        const tickFontSize = getComputedStyle(document.documentElement).getPropertyValue('--font-size-small');
 
+
+
+        const options = {
+            colors: [barColor],
+            legend: 'none',
+            backgroundColor: 'transparent',
+
+            hAxis: {
+                textStyle: {
+                    color: barColor,
+                    font: 'Roboto',
+                    fontSize: 10,
+                }
             },
             vAxis: {
-                format: 'currency'
-            }
+                format: 'currency',
+                textStyle: {
+                    color: barColor,
+                    font: 'Roboto',
+                    fontSize: 10,
+                }
+            },
         }
 
-        const chart = new google.visualization.ColumnChart(
-            document.getElementById('spending-chart')
-        );
+        const chart = new google.visualization.ColumnChart(document.getElementById('spending-chart'));
 
         chart.draw(data, options);
     }
