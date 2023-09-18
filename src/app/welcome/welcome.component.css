@@ -26,11 +26,13 @@
     & form {
         display: flex;
         flex-direction: column;
-        width: 85%;
+        width: 90%;
+
 
         & .form-item {
             padding: 10px;
             margin: 5px;
+            /* font-size: var(--font-size-med); */
         }
 
         & input {
@@ -46,6 +48,7 @@
             border: none;
             color: var(--secondary-font-color);
             background-color: var(--global-accent);
+            font-size: var(--font-size-med);
 
             &:active {
                 background-color: var(--global-accent-secondary);
