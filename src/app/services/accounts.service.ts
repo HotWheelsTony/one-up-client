@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, switchMap, map } from 'rxjs'
+import { Observable, map } from 'rxjs'
 import { AccountResource } from '../models/resources/account-resource.interface';
 import { ApiResponse } from '../models/api-response.interface';
 import { AuthService } from './auth.service';
@@ -17,28 +17,24 @@ export class AccountsService {
     constructor(private _http: HttpClient, private _authService: AuthService) { }
 
     public listAccounts(): Observable<ApiResponse<AccountResource[]>> {
-        return this._authService.createHeaders().pipe(
-            switchMap((headers) => {
-                return this._http.get<ApiResponse<AccountResource[]>>(`${this._baseUrl}`, { headers }).pipe(
-                    map((response) => ({
-                        data: response.data as AccountResource[],
-                        links: response.links
-                    }))
-                );
-            })
+        const headers = this._authService.createHeaders();
+        return this._http.get<ApiResponse<AccountResource[]>>(`${this._baseUrl}`, { headers }).pipe(
+            map((response) => ({
+                data: response.data as AccountResource[],
+                links: response.links
+            }))
         );
+
     }
 
     public getAccount(id: string): Observable<ApiResponse<AccountResource>> {
-        return this._authService.createHeaders().pipe(
-            switchMap((headers) => {
-                return this._http.get<ApiResponse<AccountResource>>(`${this._baseUrl}/${id}`, { headers }).pipe(
-                    map((response) => ({
-                        data: response.data as AccountResource
-                    }))
-                );
-            })
+        const headers = this._authService.createHeaders();
+        return this._http.get<ApiResponse<AccountResource>>(`${this._baseUrl}/${id}`, { headers }).pipe(
+            map((response) => ({
+                data: response.data as AccountResource
+            }))
         );
+
     }
 
 }

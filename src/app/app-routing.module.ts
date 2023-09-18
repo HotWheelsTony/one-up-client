@@ -15,11 +15,11 @@ const routes: Routes = [
         component: AccountsComponent,
     },
     {
-        path: ':accountId',
+        path: 'accounts/:accountId',
         component: TransactionsComponent
     },
     {
-        path: ':accountId/insights',
+        path: 'accounts/:accountId/insights',
         component: InsightsComponent
     },
 

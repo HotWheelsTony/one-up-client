@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, switchMap, map, catchError } from 'rxjs';
+import { Observable, of, map, catchError } from 'rxjs';
 
 interface PingResponse {
     meta: {
@@ -20,22 +20,9 @@ export class AuthService {
     private _cachedToken: string | null = null;
 
 
-
     constructor(private _http: HttpClient) { }
 
-    private readToken(): Observable<string | null> {
-        return of(localStorage.getItem('token'));
-    }
-
-    public createHeaders(): Observable<HttpHeaders> {
-        return this.readToken().pipe(
-            switchMap((token) => {
-                return of(new HttpHeaders().set('Authorization', `Bearer ${token}`));
-            })
-        );
-    }
-
-    public createHeaders2(): HttpHeaders {
+    public createHeaders(): HttpHeaders {
         if (!this._cachedToken) {
             this._cachedToken = localStorage.getItem('token');
         }
@@ -43,7 +30,7 @@ export class AuthService {
     }
 
     public ping(): Observable<PingResponse> {
-        const headers = this.createHeaders2();
+        const headers = this.createHeaders();
         return this._http.get<PingResponse>(`${this._baseUrl}/util/ping`, { headers }).pipe(
             map((response) => ({
                 meta: response.meta
@@ -57,7 +44,7 @@ export class AuthService {
             map((_) => {
                 return true;
             }),
-            catchError((error) => {
+            catchError((_) => {
                 return of(false);
             })
         );

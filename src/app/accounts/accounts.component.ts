@@ -31,7 +31,7 @@ export class AccountsComponent implements OnInit, OnDestroy {
     }
 
     public navigateToTransactions(account: AccountResource) {
-        this._router.navigate([account.id]);
+        this._router.navigate(['accounts', account.id]);
     }
 
     public listAccounts(): void {

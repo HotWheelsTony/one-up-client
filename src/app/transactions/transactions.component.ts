@@ -30,7 +30,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     },
     {
         name: 'Insights',
-        function: () => this._router.navigate([this.account?.id, 'insights']),
+        function: () => this._router.navigate(['accounts', this.account?.id, 'insights']),
     },
     ];
 

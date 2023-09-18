@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -16,14 +17,13 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
 
 
-    constructor(private _authService: AuthService) { }
+    constructor(private _authService: AuthService, private _router: Router) { }
 
 
     ngOnInit(): void {
         const cachedToken = localStorage.getItem('token');
-
         if (cachedToken) {
-            //redirect
+            this._router.navigate(['accounts']);
         }
     }
 
@@ -40,11 +40,10 @@ export class WelcomeComponent implements OnInit, OnDestroy {
         this._pingSubscription = this._authService.validateToken(this._token).subscribe(
             (isValid) => {
                 if (isValid) {
-                    console.log('valid token');
                     localStorage.setItem('token', this._token);
+
                     //redirect
-
-
+                    this._router.navigate(['accounts']);
                 } else {
                     //error toast
                     //reset form
