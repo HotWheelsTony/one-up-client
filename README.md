@@ -44,6 +44,9 @@ __Android via Capacitor__
     * Run `ng build` then `npx cap run android`
 
 
+__iOS via Capacitor__
+  *Working on it
+
 
 
 
