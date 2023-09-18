@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 15vh;
+    padding-top: 10vh;
 
     & .icon {
         display: flex;
@@ -14,25 +14,23 @@
     }
 
     & .title {
-        padding-top: 10px;
+        padding-top: 20px;
         font-size: var(--font-size-header);
     }
 
     & .subtitle {
-        padding-top: 70px;
+        padding-top: 13vh;
         font-size: var(--font-size-med);
     }
 
     & form {
         display: flex;
         flex-direction: column;
-        width: 100%;
-
+        width: 90%;
 
         & .form-item {
             padding: 10px;
-            margin: 15px;
-            /* font-size: var(--font-size-med); */
+            margin-top: 40px;
         }
 
         & input {
