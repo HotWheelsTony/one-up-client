@@ -14,7 +14,7 @@ import { MenuComponent } from './menu/menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InsightsComponent } from './insights/insights/insights.component';
 import { BarChartComponent } from './insights/bar-chart/bar-chart.component';
-import { WelcomeComponent } from './welcome/welcome/welcome.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 import { FormsModule } from '@angular/forms';
 
 
