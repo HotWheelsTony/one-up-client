@@ -16,6 +16,7 @@ import { InsightsComponent } from './insights/insights/insights.component';
 import { BarChartComponent } from './insights/bar-chart/bar-chart.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { FormsModule } from '@angular/forms';
+import { ToastComponent } from './toast/toast.component';
 
 
 
@@ -32,6 +33,7 @@ import { FormsModule } from '@angular/forms';
         InsightsComponent,
         BarChartComponent,
         WelcomeComponent,
+        ToastComponent,
     ],
     imports: [
         BrowserModule,

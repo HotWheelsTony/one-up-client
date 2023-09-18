@@ -9,6 +9,7 @@
     --tertiary-grey: rgba(238, 238, 238, 0.464);
     --global-accent: rgb(30, 147, 30);
     --global-accent-secondary: rgb(0, 131, 0);
+    --error-color: rgb(255, 85, 77);
 
     /* This doesn't work with passing in the global accent smh */
     --global-accent-transparent: rgba(30, 147, 30, 0.3);

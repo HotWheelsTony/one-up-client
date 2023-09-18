@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from '../services/toast.service';
 
 @Component({
     selector: 'app-welcome',
@@ -11,13 +12,14 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
 
+    public invalidToken: boolean = false;
 
     private _token: string = '';
     private _pingSubscription?: Subscription;
 
 
 
-    constructor(private _authService: AuthService, private _router: Router) { }
+    constructor(private _authService: AuthService, private _router: Router, private _toastService: ToastService) { }
 
 
     ngOnInit(): void {
@@ -41,12 +43,9 @@ export class WelcomeComponent implements OnInit, OnDestroy {
             (isValid) => {
                 if (isValid) {
                     localStorage.setItem('token', this._token);
-
-                    //redirect
                     this._router.navigate(['accounts']);
                 } else {
-                    //error toast
-                    //reset form
+                    this._toastService.show('Invalid token');
                     form.resetForm();
                 }
             }
