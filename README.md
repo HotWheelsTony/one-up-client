@@ -45,7 +45,7 @@ __Android via Capacitor__
 
 
 __iOS via Capacitor__
-  *Working on it
+  * Working on it
 
 
 
