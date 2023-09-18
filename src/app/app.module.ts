@@ -14,6 +14,8 @@ import { MenuComponent } from './menu/menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InsightsComponent } from './insights/insights/insights.component';
 import { BarChartComponent } from './insights/bar-chart/bar-chart.component';
+import { WelcomeComponent } from './welcome/welcome/welcome.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -29,6 +31,7 @@ import { BarChartComponent } from './insights/bar-chart/bar-chart.component';
         MenuComponent,
         InsightsComponent,
         BarChartComponent,
+        WelcomeComponent,
     ],
     imports: [
         BrowserModule,
@@ -36,6 +39,7 @@ import { BarChartComponent } from './insights/bar-chart/bar-chart.component';
         HttpClientModule,
         MatIconModule,
         BrowserAnimationsModule,
+        FormsModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
