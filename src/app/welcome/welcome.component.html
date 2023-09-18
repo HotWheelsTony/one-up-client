@@ -1,9 +1,11 @@
-<div class="container">
-    <div class="title">
-        <span>Welcome to One Up!</span>
-    </div>
+<div class="title-container">
+    <mat-icon class="icon">waving_hand</mat-icon>
+    <span class="title">Welcome to One Up!</span>
+</div>
+<div class="form-container">
     <form #form="ngForm" (ngSubmit)="onSubmit(form)">
-        <input type="text" name="token" ngModel required #token="ngModel">
-        <button type="submit">Submit</button>
+        <span class="form-item">Please enter your personal access token</span>
+        <input class="form-item" type="text" placeholder="up:yeah:***" name="token" ngModel required #token="ngModel">
+        <button class="form-item" id="submit" type="submit">Submit</button>
     </form>
 </div>

@@ -3,14 +3,15 @@
 
     /* COLORS */
     --primary-font-color: black;
+    --secondary-font-color: white;
     --primary-grey: #969696;
     --secondary-grey: #ededed;
     --tertiary-grey: rgba(238, 238, 238, 0.464);
-    --global-accent: rgb(49, 177, 49);
+    --global-accent: rgb(30, 147, 30);
     --global-accent-secondary: rgb(0, 131, 0);
 
     /* This doesn't work with passing in the global accent smh */
-    --global-accent-transparent: rgba(49, 177, 49, 0.3);
+    --global-accent-transparent: rgba(30, 147, 30, 0.3);
     --global-background: white;
 
 
@@ -34,9 +35,4 @@ body {
 html,
 body {
     height: 100%;
-}
-
-body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
 }

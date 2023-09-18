@@ -1,6 +1,53 @@
-.container {
+.title-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    padding-top: 15vh;
+    padding-bottom: 10vh;
+
+    & .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--global-accent);
+        font-size: 70px;
+        padding: 35px;
+    }
+
+    & .title {
+        font-size: var(--font-size-header);
+    }
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    & .form-item {
+        padding: 10px;
+        margin: 5px;
+    }
+
+    & #submit {
+        border: none;
+        color: var(--secondary-font-color);
+        background-color: var(--global-accent);
+    }
+
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    border: none;
+    border-bottom: black solid 1px;
+
+    &:focus {
+        outline: none;
+    }
 }
