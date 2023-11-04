@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './header/header.component';
 import { AccountCardComponent } from './accounts/account-card/account-card.component';
 import { TransactionsComponent } from './transactions/transactions.component';
-import { AccountsComponent } from './accounts/accounts.component';
+import { AccountsComponent } from './pages/accounts/accounts.component';
 import { TransactionCardComponent } from './transactions/transaction-card/transaction-card.component';
 import { MenuComponent } from './menu/menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
