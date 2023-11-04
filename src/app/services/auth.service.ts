@@ -41,10 +41,12 @@ export class AuthService {
     public validateToken(token: string): Observable<boolean> {
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         return this._http.get<PingResponse>(`${this._baseUrl}/util/ping`, { headers }).pipe(
-            map((_) => {
+            map((response) => {
+                console.log('Token validated successfully!: ', response);
                 return true;
             }),
-            catchError((_) => {
+            catchError((error) => {
+                console.log(error);
                 return of(false);
             })
         );

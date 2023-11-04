@@ -14,11 +14,11 @@
         </div>
     </div>
     <div class="period-controls">
-        <mat-icon (click)="previousPeriod()">arrow_back_ios</mat-icon>
+        <!-- <mat-icon (click)="previousPeriod()">arrow_back_ios</mat-icon> -->
         <span>{{ since | date: 'd'}}
             {{ since.getMonth() !== until.getMonth() ? (since | date: 'MMMM') : null}} - {{ until | date: 'd
             MMMM'}} {{ timeframe === timeframeEnum.year ? until.getFullYear() : null }}</span>
-        <mat-icon (click)="nextPeriod()">arrow_forward_ios</mat-icon>
+        <!-- <mat-icon (click)="nextPeriod()">arrow_forward_ios</mat-icon> -->
     </div>
     <div class="period-total">
         <span>{{ periodTotal | currency: '$'}}</span>

@@ -1,0 +1,27 @@
+<ion-content class="ion-padding">
+    <h1>
+        <ion-text color="primary">
+            Welcome!
+        </ion-text>
+    </h1>
+    <h2>
+        To get started, please enter your personal access token:
+    </h2>
+    <form [formGroup]="tokenForm" (ngSubmit)="onSubmit()">
+        <ion-input mode="md" formControlName="token" label="Up Token" labelPlacement="floating"
+            placeholder="up:yeah:***" fill="outline">
+        </ion-input>
+        <div class="help">
+            <a href="https://api.up.com.au/getting_started">
+                <ion-icon name="help-circle-outline" color="medium"></ion-icon>
+                <ion-text color="medium">
+                    What's this?
+                </ion-text>
+            </a>
+        </div>
+        <ion-button [disabled]="!tokenForm.valid" class="ion-margin-top" type="submit" expand="full">Lets
+            go!</ion-button>
+    </form>
+    <ion-toast class="ion-text-center" [isOpen]="isToastOpen" message="Inavlid Up token" [duration]="5000"
+        (didDismiss)="showToast(false)" color="danger"></ion-toast>
+</ion-content>
