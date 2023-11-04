@@ -3,6 +3,10 @@ h1 {
     margin-bottom: 15vh;
 }
 
+h2 {
+    padding-bottom: 10px;
+}
+
 a {
     display: flex;
     align-items: center;
