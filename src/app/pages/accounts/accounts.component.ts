@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AccountsService } from '../../services/accounts.service';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AccountResource } from '../../models/resources/account-resource.interface';
 
@@ -12,15 +11,11 @@ import { AccountResource } from '../../models/resources/account-resource.interfa
 export class AccountsComponent implements OnInit, OnDestroy {
 
     public accounts: AccountResource[] = [];
-    private _links?: {
-        prev?: string;
-        next?: string;
-    };
 
     private _accountsSubscription?: Subscription;
 
 
-    constructor(private _accountsService: AccountsService, private _router: Router) { }
+    constructor(private _accountsService: AccountsService) { }
 
     ngOnInit(): void {
         this.listAccounts();
@@ -30,15 +25,10 @@ export class AccountsComponent implements OnInit, OnDestroy {
         this._accountsSubscription?.unsubscribe();
     }
 
-    public navigateToTransactions(account: AccountResource) {
-        this._router.navigate(['accounts', account.id]);
-    }
-
     public listAccounts(): void {
         this._accountsSubscription = this._accountsService.listAccounts().subscribe(
             (response) => {
                 this.accounts = response.data;
-                this._links = response.links;
             }
         );
     }

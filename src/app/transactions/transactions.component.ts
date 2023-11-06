@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountsService } from '../services/accounts.service';
-import { Subscription } from 'rxjs';
+import { Subscription, lastValueFrom } from 'rxjs';
 import { AccountResource } from '../models/resources/account-resource.interface';
 import { TransactionResource } from '../models/resources/transaction-resource.interface';
 import { ApiResponse } from '../models/api-response.interface';
@@ -17,12 +17,11 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     public response?: ApiResponse<TransactionResource | TransactionResource[]>;
     public account?: AccountResource;
     public transactions: TransactionResource[] = [];
+    public scrollEndMessage: string | null = null;
+    public scrollEndSpinner: string = 'crescent';
 
-    private _accountSubscription?: Subscription;
-    private _transactionsSubscription?: Subscription;
-    private _nextPageSubscription?: Subscription;
-    private _shouldLoadNextPage = true;
-
+    private _routeParamsSubscription?: Subscription;
+    private _nextpageUrl?: string;
 
     public menuItems = [{
         name: 'Search',
@@ -37,18 +36,27 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
     constructor(private _router: Router, private _transactionsService: TransactionsService, private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
 
+
     ngOnInit(): void {
-        const accountId = this._activatedRoute.snapshot.paramMap.get('accountId');
-        if (accountId) {
-            this.getAccount(accountId);
-        }
+        this._routeParamsSubscription = this._activatedRoute.paramMap.subscribe(
+            async (routeParams) => {
+                const accountId = routeParams.get('accountId');
+
+                if (accountId) {
+                    this.account = (await lastValueFrom(this._accountsService.getAccount(accountId))).data;
+                    const response = (await lastValueFrom(this._transactionsService.listAccountTransactions(accountId)));
+                    this.transactions = this.calculateRemainingBalances(this.account, response.data);
+                    this._nextpageUrl = response.links?.next as string;
+                }
+            }
+        );
     }
 
+
     ngOnDestroy(): void {
-        this._accountSubscription?.unsubscribe();
-        this._transactionsSubscription?.unsubscribe();
-        this._nextPageSubscription?.unsubscribe();
+        this._routeParamsSubscription?.unsubscribe();
     }
+
 
     public toggleAccordion(transaction: TransactionResource) {
         //collapse all class=card
@@ -68,48 +76,22 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getAccount(id: string) {
-        this._accountSubscription = this._accountsService.getAccount(id).subscribe(
-            (response) => {
-                this.account = response.data;
-                this.listTransactions(this.account.id);
-            }
-        );
-    }
 
-    private listTransactions(accountId: string) {
-        this._transactionsSubscription = this._transactionsService.listAccountTransactions(accountId).subscribe(
-            (response) => {
-                this.response = response;
-                this.transactions = this.calculateRemainingBalances(this.account!, response.data);
-            }
-        );
-    }
-
-    private loadMoreTransactions(url: string) {
-        this._nextPageSubscription = this._transactionsService.getNextPage(url).subscribe(
-            (response) => {
-                this.response = response;
-                this.transactions = this.calculateRemainingBalances(this.account!, this.transactions.concat(response.data));
-                this._shouldLoadNextPage = true;
-
-            }
-        );
-    }
-
-    @HostListener('window:scroll', ['$event'])
-    public onScroll() {
-        const nextPageUrl = this.response?.links?.next;
-        const pos = (document.documentElement.scrollTop || document.body.scrollTop) + document.documentElement.offsetHeight;
-        const max = document.documentElement.scrollHeight;
-        const scrollPercent = pos / max;
-
-        // 95% scrolled down the page
-        if (this._shouldLoadNextPage && scrollPercent > 0.95 && nextPageUrl) {
-            this._shouldLoadNextPage = false;
-            this.loadMoreTransactions(nextPageUrl)
+    public async loadMoreTransactions(event: any) {
+        if (!this._nextpageUrl) {
+            this.scrollEndSpinner = 'none';
+            this.scrollEndMessage = 'End of transactions'
+            return;
         }
+
+        const response = (await lastValueFrom(this._transactionsService.getNextPage(this._nextpageUrl)));
+        const nextPageTxns = response.data;
+        this._nextpageUrl = response.links?.next;
+
+        this.transactions = this.calculateRemainingBalances(this.account!, this.transactions.concat(nextPageTxns));
+        event.target.complete()
     }
+
 
     private calculateRemainingBalances(account: AccountResource, transactions: TransactionResource[]): TransactionResource[] {
         for (let i = 0; i < transactions.length; i++) {

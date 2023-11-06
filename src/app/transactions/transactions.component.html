@@ -1,8 +1,53 @@
-<app-header [backButton]="true" [moreOptions]="true" icon="home" [title]="this.account?.attributes?.displayName"
+<ion-header mode="md">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            {{ account?.attributes?.displayName }}
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let txn of transactions">
+            <div>
+                <ion-label>
+                    {{ txn.attributes.description }}
+                </ion-label>
+                <ion-label>
+                    <ion-text color="medium">
+                        {{ txn.attributes.createdAt | date: 'EEE, d MMM'}}
+                    </ion-text>
+                </ion-label>
+            </div>
+            <div class="amount-and-balance" slot="end">
+                <ion-label>
+                    <ion-text [color]="txn.attributes.amount.valueInBaseUnits > 0 ? 'primary' : ''">
+                        {{ txn.attributes.amount.value | currency }}
+                    </ion-text>
+                </ion-label>
+                <ion-label>
+                    <ion-text color="medium">
+                        {{ txn.remainingBalance | currency }}
+                    </ion-text>
+                </ion-label>
+            </div>
+        </ion-item>
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="loadMoreTransactions($event)">
+        <ion-infinite-scroll-content [loadingText]="scrollEndMessage" [loadingSpinner]="scrollEndSpinner">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>
+
+
+<!-- <app-header [backButton]="true" [moreOptions]="true" icon="home" [title]="this.account?.attributes?.displayName"
     subtitle="Past transactions" [account]="this.account" [currency]="this.account?.attributes?.balance?.currencyCode"
     [menuItems]="this.menuItems"></app-header>
 <div class="transactions-list" (scroll)="this.onScroll()">
     <app-transaction-card *ngFor="let transaction of this.transactions" (click)="this.toggleAccordion(transaction)"
         [transaction]="transaction"></app-transaction-card>
     <span class="end">No more transactions to show</span>
-</div>
+</div> -->
