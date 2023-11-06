@@ -16,7 +16,7 @@
                     {{ account.attributes.displayName }}
                 </h5>
                 <h5 class="balance ion-no-margin ion-margin-bottom">
-                    <ion-text color="primary">
+                    <ion-text [color]="account.attributes.balance.valueInBaseUnits > 0 ? 'primary' : ''">
                         {{ account.attributes.balance.value | currency }}
                     </ion-text>
                 </h5>
