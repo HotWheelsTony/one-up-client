@@ -4,7 +4,6 @@ import { AccountsService } from '../services/accounts.service';
 import { Subscription, lastValueFrom } from 'rxjs';
 import { AccountResource } from '../models/resources/account-resource.interface';
 import { TransactionResource } from '../models/resources/transaction-resource.interface';
-import { ApiResponse } from '../models/api-response.interface';
 import { TransactionsService } from '../services/transactions.service';
 
 @Component({
@@ -14,11 +13,12 @@ import { TransactionsService } from '../services/transactions.service';
 })
 export class TransactionsComponent implements OnInit, OnDestroy {
 
-    public response?: ApiResponse<TransactionResource | TransactionResource[]>;
     public account?: AccountResource;
     public transactions: TransactionResource[] = [];
+    public displayTransactions: TransactionResource[] = [...this.transactions];
     public scrollEndMessage: string | null = null;
     public scrollEndSpinner: string = 'crescent';
+    public showSearch: boolean = false;
 
     private _routeParamsSubscription?: Subscription;
     private _nextpageUrl?: string;
@@ -46,6 +46,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
                     this.account = (await lastValueFrom(this._accountsService.getAccount(accountId))).data;
                     const response = (await lastValueFrom(this._transactionsService.listAccountTransactions(accountId)));
                     this.transactions = this.calculateRemainingBalances(this.account, response.data);
+                    this.displayTransactions = this.transactions;
+
                     this._nextpageUrl = response.links?.next as string;
                 }
             }
@@ -89,6 +91,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         this._nextpageUrl = response.links?.next;
 
         this.transactions = this.calculateRemainingBalances(this.account!, this.transactions.concat(nextPageTxns));
+        this.displayTransactions = this.transactions;
         event.target.complete()
     }
 
@@ -104,6 +107,21 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             }
         }
         return transactions;
+    }
+
+
+    public handleSearch(event: any) {
+        const query = event.target.value.toLowerCase();
+        this.displayTransactions = this.transactions.filter(
+            (e) => {
+                return e.attributes.description.toLowerCase().includes(query);
+            }
+        );
+    }
+
+
+    public toggleSearchBar() {
+        this.showSearch = !this.showSearch;
     }
 
 

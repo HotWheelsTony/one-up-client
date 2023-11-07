@@ -1,8 +1,14 @@
-/* bit cheeky but the margin is applied to the div and not the item to push the underline down */
+.search-date-and-amount {
+    display: flex;
+    justify-content: center;
+}
+
+
 .amount-and-balance {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    /* bit cheeky but the margin is applied to the div and not the item to push the underline down */
     margin-top: 11px;
     margin-bottom: 11px;
 }
