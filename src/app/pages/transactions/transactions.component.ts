@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountsService } from '../services/accounts.service';
+import { AccountsService } from '../../services/accounts.service';
 import { Subscription, lastValueFrom } from 'rxjs';
-import { AccountResource } from '../models/resources/account-resource.interface';
-import { TransactionResource } from '../models/resources/transaction-resource.interface';
-import { TransactionsService } from '../services/transactions.service';
+import { AccountResource } from '../../models/resources/account-resource.interface';
+import { TransactionResource } from '../../models/resources/transaction-resource.interface';
+import { TransactionsService } from '../../services/transactions.service';
 
 @Component({
     selector: 'app-transactions',

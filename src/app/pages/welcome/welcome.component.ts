@@ -4,7 +4,6 @@ import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
-import { ToastService } from '../../services/toast.service';
 
 @Component({
     selector: 'app-welcome',
@@ -18,7 +17,7 @@ export class WelcomeComponent implements OnInit {
     public isToastOpen = false;
 
 
-    constructor(private _loadingCtrl: LoadingController, private _formBuilder: FormBuilder, private _authService: AuthService, private _router: Router, private _toastService: ToastService) {
+    constructor(private _loadingCtrl: LoadingController, private _formBuilder: FormBuilder, private _authService: AuthService, private _router: Router) {
         this.tokenForm = this._formBuilder.group({
             token: ['', Validators.required],
         });
