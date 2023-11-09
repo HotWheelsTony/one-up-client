@@ -14,6 +14,7 @@ import { BarChartComponent } from './insights/bar-chart/bar-chart.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { SearchComponent } from './pages/search/search.component';
 
 
 
@@ -27,7 +28,8 @@ import { IonicModule } from '@ionic/angular';
         MenuComponent,
         InsightsComponent,
         BarChartComponent,
-        WelcomeComponent
+        WelcomeComponent,
+        SearchComponent
     ],
     imports: [
         BrowserModule,

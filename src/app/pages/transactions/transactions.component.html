@@ -1,7 +1,7 @@
 <ion-header mode="md">
     <ion-toolbar>
         <ion-buttons slot="primary">
-            <ion-button (click)="toggleSearchBar()">
+            <ion-button routerLink="search">
                 <ion-icon name="search"></ion-icon>
             </ion-button>
         </ion-buttons>
@@ -10,46 +10,12 @@
         </ion-buttons>
         <ion-buttons slot="end">
             <ion-button>
-                <ion-icon name="ellipsis-vertical"></ion-icon>
+                <ion-icon name="bar-chart-outline"></ion-icon>
             </ion-button>
         </ion-buttons>
         <ion-title>
             {{ account?.attributes?.displayName }}
         </ion-title>
-    </ion-toolbar>
-    <ion-toolbar *ngIf="showSearch">
-        <ion-searchbar [debounce]="500" mode="ios" placeholder="Search Transactions" (ionInput)="handleSearch($event)">
-        </ion-searchbar>
-
-        <div class="search-date-and-amount ion-padding-bottom">
-            <ion-buttons mode="ios">
-                <ion-button>
-                    <ion-icon name="cash-outline"></ion-icon>
-                    Any Amount
-                </ion-button>
-            </ion-buttons>
-            <ion-buttons mode="ios">
-                <ion-button>
-                    <ion-icon name="calendar"></ion-icon>
-                    Any Date
-                </ion-button>
-            </ion-buttons>
-        </div>
-        <!-- <ion-toolbar>
-
-            <ion-buttons mode="ios" slot="primary">
-                <ion-button>
-                    <ion-icon name="cash-outline"></ion-icon>
-                    Any Amount
-                </ion-button>
-            </ion-buttons>
-            <ion-buttons mode="ios" slot="">
-                <ion-button>
-                    <ion-icon name="calendar"></ion-icon>
-                    Any Amount
-                </ion-button>
-            </ion-buttons>
-        </ion-toolbar> -->
     </ion-toolbar>
 </ion-header>
 

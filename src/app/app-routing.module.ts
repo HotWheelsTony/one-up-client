@@ -4,6 +4,7 @@ import { TransactionsComponent } from './pages/transactions/transactions.compone
 import { AccountsComponent } from './pages/accounts/accounts.component';
 import { InsightsComponent } from './insights/insights/insights.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
+import { SearchComponent } from './pages/search/search.component';
 
 const routes: Routes = [
     {
@@ -12,7 +13,7 @@ const routes: Routes = [
     },
     {
         path: 'accounts',
-        component: AccountsComponent,
+        component: AccountsComponent
     },
     {
         path: 'accounts/:accountId',
@@ -22,6 +23,10 @@ const routes: Routes = [
         path: 'accounts/:accountId/insights',
         component: InsightsComponent
     },
+    {
+        path: 'accounts/:accountId/search',
+        component: SearchComponent
+    }
 
 ];
 

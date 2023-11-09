@@ -1,0 +1,43 @@
+<ion-header mode="md">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-searchbar class="ion-margin-top" [debounce]="500" mode="ios" placeholder="Search Transactions">
+        </ion-searchbar>
+    </ion-toolbar>
+    <ion-toolbar>
+        <div class="date-range">
+            <ion-label>
+                From
+            </ion-label>
+            <ion-datetime-button datetime="datetimeSince"></ion-datetime-button>
+            <ion-label>
+                to
+            </ion-label>
+            <ion-datetime-button datetime="datetimeUntil"></ion-datetime-button>
+        </div>
+    </ion-toolbar>
+    <ion-toolbar>
+        <div class="amount-range">
+            <ion-input type="number" label="From" placeholder="Any amount"></ion-input>
+            <ion-input type="number" label="to" placeholder="Any amount"></ion-input>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-modal [keepContentsMounted]="true">
+    <ng-template>
+        <ion-datetime id="datetimeSince" presentation="date" [preferWheel]="true"></ion-datetime>
+    </ng-template>
+</ion-modal>
+
+<ion-modal [keepContentsMounted]="true">
+    <ng-template>
+        <ion-datetime id="datetimeUntil" presentation="date" [preferWheel]="true"></ion-datetime>
+    </ng-template>
+</ion-modal>
+
+<ion-content>
+
+</ion-content>
