@@ -1,9 +1,3 @@
-.search-date-and-amount {
-    display: flex;
-    justify-content: center;
-}
-
-
 .amount-and-balance {
     display: flex;
     flex-direction: column;

@@ -33,7 +33,7 @@ export class AccountsComponent implements OnInit, OnDestroy {
     }
 
 
-    public async refresh(event: any) {
+    public async handleRefresh(event: any) {
         await this.listAccounts();
         event.target.complete();
     }

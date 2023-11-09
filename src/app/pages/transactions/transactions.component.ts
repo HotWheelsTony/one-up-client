@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AccountsService } from '../../services/accounts.service';
 import { Subscription, lastValueFrom } from 'rxjs';
 import { AccountResource } from '../../models/resources/account-resource.interface';
@@ -15,26 +15,12 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
     public account?: AccountResource;
     public transactions: TransactionResource[] = [];
-    public displayTransactions: TransactionResource[] = [...this.transactions];
-    public scrollEndMessage: string | null = null;
-    public scrollEndSpinner: string = 'crescent';
-    public showSearch: boolean = false;
+    public nextPageUrl?: string;
 
     private _routeParamsSubscription?: Subscription;
-    private _nextpageUrl?: string;
-
-    public menuItems = [{
-        name: 'Search',
-        function: () => this._router.navigate(['']),
-    },
-    {
-        name: 'Insights',
-        function: () => this._router.navigate(['accounts', this.account?.id, 'insights']),
-    },
-    ];
 
 
-    constructor(private _router: Router, private _transactionsService: TransactionsService, private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
+    constructor(private _transactionsService: TransactionsService, private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
 
 
     ngOnInit(): void {
@@ -44,11 +30,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
                 if (accountId) {
                     this.account = (await lastValueFrom(this._accountsService.getAccount(accountId))).data;
-                    const response = (await lastValueFrom(this._transactionsService.listAccountTransactions(accountId)));
-                    this.transactions = this.calculateRemainingBalances(this.account, response.data);
-                    this.displayTransactions = this.transactions;
-
-                    this._nextpageUrl = response.links?.next as string;
+                    this.loadTransactions();
                 }
             }
         );
@@ -60,45 +42,39 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     }
 
 
-    public toggleAccordion(transaction: TransactionResource) {
-        //collapse all class=card
-        const id = transaction.id;
-
-        //toggle clicked card
-        document.getElementById(id)?.classList.toggle('active');
-
-        //collapse all active cards, unless it's the clicked card
-        const all = document.getElementsByClassName('active');
-
-        for (let i = 0; i < all.length; i++) {
-            if (all[i].id !== id) {
-                all[i].classList.remove('active')
-            }
-
+    private async loadTransactions() {
+        if (!this.account) {
+            return;
         }
+        const response = (await lastValueFrom(this._transactionsService.listAccountTransactions(this.account.id)));
+        this.transactions = this.calculateRemainingBalances(this.account, response.data);
+        this.nextPageUrl = response.links?.next as string;
     }
 
 
-    public async loadMoreTransactions(event: any) {
-        if (!this._nextpageUrl) {
-            this.scrollEndSpinner = 'none';
-            this.scrollEndMessage = 'End of transactions'
+    private async loadMoreTransactions() {
+        if (!this.account) {
             return;
         }
+        if (this.nextPageUrl) {
+            const response = (await lastValueFrom(this._transactionsService.getNextPage(this.nextPageUrl)));
+            const nextPageTxns = response.data;
+            this.nextPageUrl = response.links?.next;
 
-        const response = (await lastValueFrom(this._transactionsService.getNextPage(this._nextpageUrl)));
-        const nextPageTxns = response.data;
-        this._nextpageUrl = response.links?.next;
-
-        this.transactions = this.calculateRemainingBalances(this.account!, this.transactions.concat(nextPageTxns));
-        this.displayTransactions = this.transactions;
-        event.target.complete()
+            this.transactions = this.calculateRemainingBalances(this.account, this.transactions.concat(nextPageTxns));
+        }
     }
 
 
     private calculateRemainingBalances(account: AccountResource, transactions: TransactionResource[]): TransactionResource[] {
         for (let i = 0; i < transactions.length; i++) {
             const transaction = transactions[i];
+
+            //ignore balances we've already calculated
+            if (transaction.remainingBalance) {
+                continue;
+            }
+
             if (i === 0) {
                 transaction.remainingBalance = account.attributes.balance.valueInBaseUnits / 100;
             } else {
@@ -110,18 +86,15 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     }
 
 
-    public handleSearch(event: any) {
-        const query = event.target.value.toLowerCase();
-        this.displayTransactions = this.transactions.filter(
-            (e) => {
-                return e.attributes.description.toLowerCase().includes(query);
-            }
-        );
+    public async handleRefresh(event: any) {
+        await this.loadTransactions();
+        event.target.complete();
     }
 
 
-    public toggleSearchBar() {
-        this.showSearch = !this.showSearch;
+    public async handleScroll(event: any) {
+        await this.loadMoreTransactions();
+        event.target.complete();
     }
 
 

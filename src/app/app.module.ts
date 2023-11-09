@@ -37,9 +37,7 @@ import { SearchComponent } from './pages/search/search.component';
         HttpClientModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
-        IonicModule.forRoot({
-            mode: 'ios'
-        }),
+        IonicModule.forRoot(),
     ],
     providers: [],
     bootstrap: [AppComponent]
