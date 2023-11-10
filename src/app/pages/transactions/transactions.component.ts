@@ -47,53 +47,13 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             return;
         }
         const response = (await lastValueFrom(this._transactionsService.listAccountTransactions(this.account.id)));
-        this.transactions = this.calculateRemainingBalances(this.account, response.data);
+        this.transactions = response.data;
         this.nextPageUrl = response.links?.next as string;
-    }
-
-
-    private async loadMoreTransactions() {
-        if (!this.account) {
-            return;
-        }
-        if (this.nextPageUrl) {
-            const response = (await lastValueFrom(this._transactionsService.getNextPage(this.nextPageUrl)));
-            const nextPageTxns = response.data;
-            this.nextPageUrl = response.links?.next;
-
-            this.transactions = this.calculateRemainingBalances(this.account, this.transactions.concat(nextPageTxns));
-        }
-    }
-
-
-    private calculateRemainingBalances(account: AccountResource, transactions: TransactionResource[]): TransactionResource[] {
-        for (let i = 0; i < transactions.length; i++) {
-            const transaction = transactions[i];
-
-            //ignore balances we've already calculated
-            if (transaction.remainingBalance) {
-                continue;
-            }
-
-            if (i === 0) {
-                transaction.remainingBalance = account.attributes.balance.valueInBaseUnits / 100;
-            } else {
-                const nextChronoligicalTransaction = transactions[i - 1];
-                transaction.remainingBalance = nextChronoligicalTransaction.remainingBalance - (nextChronoligicalTransaction.attributes.amount.valueInBaseUnits / 100);
-            }
-        }
-        return transactions;
     }
 
 
     public async handleRefresh(event: any) {
         await this.loadTransactions();
-        event.target.complete();
-    }
-
-
-    public async handleScroll(event: any) {
-        await this.loadMoreTransactions();
         event.target.complete();
     }
 

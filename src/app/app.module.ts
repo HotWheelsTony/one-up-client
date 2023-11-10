@@ -15,6 +15,8 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SearchComponent } from './pages/search/search.component';
+import { DateTime, Duration } from 'luxon';
+import { TransactionsListComponent } from './components/transactions-list/transactions-list.component';
 
 
 
@@ -29,7 +31,8 @@ import { SearchComponent } from './pages/search/search.component';
         InsightsComponent,
         BarChartComponent,
         WelcomeComponent,
-        SearchComponent
+        SearchComponent,
+        TransactionsListComponent
     ],
     imports: [
         BrowserModule,
@@ -39,7 +42,10 @@ import { SearchComponent } from './pages/search/search.component';
         ReactiveFormsModule,
         IonicModule.forRoot(),
     ],
-    providers: [],
+    providers: [
+        { provide: 'DateTime', useValue: DateTime },
+        { provide: 'Duration', useValue: Duration },
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
