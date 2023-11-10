@@ -1,21 +1,24 @@
 <ion-header mode="md">
     <ion-toolbar>
-        <ion-buttons slot="primary">
-            <ion-button routerLink="search">
-                <ion-icon name="search"></ion-icon>
-            </ion-button>
-        </ion-buttons>
+        <ion-title>
+            {{ account?.attributes?.displayName }}
+            <ion-text color="primary">
+                {{ account?.attributes?.balance?.value | currency: '$'}}
+            </ion-text>
+        </ion-title>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
+
+
         <ion-buttons slot="end">
+            <ion-button routerLink="search">
+                <ion-icon slot="icon-only" name="search"></ion-icon>
+            </ion-button>
             <ion-button>
-                <ion-icon name="bar-chart-outline"></ion-icon>
+                <ion-icon slot="icon-only" name="bar-chart-outline"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title>
-            {{ account?.attributes?.displayName }}
-        </ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -26,5 +29,4 @@
 
     <app-transactions-list [account]="account" [transactions]="transactions" [nextPageUrl]="nextPageUrl">
     </app-transactions-list>
-
 </ion-content>
