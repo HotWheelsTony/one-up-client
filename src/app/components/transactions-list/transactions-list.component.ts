@@ -81,7 +81,7 @@ export class TransactionsListComponent implements OnChanges {
                 const value = Math.abs(txn.attributes.amount.valueInBaseUnits / 100);
                 const inValueRange = value > this.fromAmount && value < this.toAmount;
 
-                return txn.attributes.description.toLowerCase().includes(this.query) && inValueRange;
+                return txn.attributes.description.toLowerCase().includes(this.query.toLowerCase()) && inValueRange;
             }
         );
     }
