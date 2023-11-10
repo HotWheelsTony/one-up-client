@@ -21,10 +21,22 @@
     </ion-toolbar>
     <ion-toolbar>
         <div class="amount-range">
-            <ion-input (ionInput)="handleFromAmountChange($event)" placeholder="Any amount" type="number"
-                label="From"></ion-input>
-            <ion-input (ionInput)="handleToAmountChange($event)" placeholder="Any amount" type="number"
-                label="to"></ion-input>
+            <div class="amount-input">
+
+                <ion-label class="ion-text-nowrap">
+                    From $
+                </ion-label>
+                <ion-input (ionInput)="handleFromAmountChange($event)" placeholder=" Any amount"
+                    type="number"></ion-input>
+            </div>
+            <div class="amount-input">
+
+                <ion-label class="ion-text-nowrap">
+                    to $
+                </ion-label>
+                <ion-input (ionInput)="handleToAmountChange($event)" placeholder=" Any amount"
+                    type="number"></ion-input>
+            </div>
         </div>
     </ion-toolbar>
 

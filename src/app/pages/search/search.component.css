@@ -7,7 +7,12 @@
     margin-right: 16px;
 }
 
+.amount-input {
+    display: flex;
+    align-items: center;
+}
+
 
 ion-input {
-    --highlight-color: var(--ion-color-primary) !important;
+    max-width: 100px;
 }
