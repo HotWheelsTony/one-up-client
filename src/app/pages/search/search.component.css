@@ -6,3 +6,8 @@
     margin-left: 16px;
     margin-right: 16px;
 }
+
+
+ion-input {
+    --highlight-color: var(--ion-color-primary) !important;
+}

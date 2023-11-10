@@ -8,8 +8,8 @@
         To get started, please enter your personal access token:
     </h2>
     <form [formGroup]="tokenForm" (ngSubmit)="onSubmit()">
-        <ion-input formControlName="token" label="Up Token" labelPlacement="floating" placeholder="up:yeah:***"
-            fill="outline">
+        <ion-input mode="md" formControlName="token" label="Up Token" labelPlacement="floating"
+            placeholder="up:yeah:***" fill="outline">
         </ion-input>
         <div class="help">
             <a href="https://api.up.com.au/getting_started">
