@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DateTime } from 'luxon';
 import { Subscription, lastValueFrom } from 'rxjs';
@@ -15,23 +14,21 @@ import { TransactionsService } from 'src/app/services/transactions.service';
 })
 export class SearchComponent implements OnInit, OnDestroy {
 
-    public searchForm: FormGroup;
     public account?: AccountResource;
     public transactions: TransactionResource[] = [];
     public nextPageUrl?: string;
 
-    private _searchFormSubscription?: Subscription;
+    public since: DateTime = DateTime.now().minus({ weeks: 1 });
+    public until: DateTime = DateTime.now();
+
+    public query: string = '';
+    public fromAmount: number = Number.NEGATIVE_INFINITY;
+    public toAmount: number = Number.POSITIVE_INFINITY;
+
     private _routeParamsSubscription?: Subscription;
 
-    constructor(private _formBuilder: FormBuilder, private _transactionsService: TransactionsService, private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) {
-        this.searchForm = this._formBuilder.group({
-            query: [],
-            since: [DateTime.now().minus({ weeks: 1 }).toISO()],
-            until: [DateTime.now().toISO()],
-            fromAmount: [],
-            toAmount: [],
-        });
-    }
+
+    constructor(private _transactionsService: TransactionsService, private _accountsService: AccountsService, private _activatedRoute: ActivatedRoute) { }
 
 
     ngOnInit(): void {
@@ -44,51 +41,59 @@ export class SearchComponent implements OnInit, OnDestroy {
                 }
             }
         );
-
-        this._searchFormSubscription = this.searchForm.valueChanges.subscribe(
-            () => {
-                //use values from form to call update and filter methods here
-                this.loadTransactions();
-            }
-        );
     }
 
 
     ngOnDestroy(): void {
-        this._searchFormSubscription?.unsubscribe();
         this._routeParamsSubscription?.unsubscribe();
     }
 
 
-    private async loadTransactions() {
+    public async loadTransactions() {
         if (!this.account) {
             return;
         }
 
-        const since = DateTime.fromISO(this.searchForm.value.since).startOf('day').toISO();
-        const until = DateTime.fromISO(this.searchForm.value.until).endOf('day').toISO();
+        const sinceStr = this.since.startOf('day').toISO();
+        const untilStr = this.until.endOf('day').toISO();
 
-        if (!since || !until) {
+        if (!sinceStr || !untilStr) {
             return;
         }
 
-        const response = (await lastValueFrom(this._transactionsService.listAccountTransactions(this.account.id, '20', since, until)));
+        const response = (await lastValueFrom(this._transactionsService.listAccountTransactions(this.account.id, '20', sinceStr, untilStr)));
         this.nextPageUrl = response.links?.next;
         this.transactions = response.data;
-
     }
 
 
+    public handleQuery(event: any) {
+        this.query = event.target.value;
+    }
 
 
+    public async handleSinceChange(event: any) {
+        this.since = DateTime.fromISO(event.target.value);
+        await this.loadTransactions();
+    }
 
-    // public handleSearch(event: any) {
-    //     const query = event.target.value.toLowerCase();
-    //     this.displayTransactions = this.transactions.filter(
-    //         (e) => {
-    //             return e.attributes.description.toLowerCase().includes(query);
-    //         }
-    //     );
-    // }
+
+    public async handleUntilChange(event: any) {
+        this.until = DateTime.fromISO(event.target.value);
+        await this.loadTransactions();
+    }
+
+
+    public handleFromAmountChange(event: any) {
+        const value = +event.target.value;
+        this.fromAmount = value > 0 ? value : Number.NEGATIVE_INFINITY;
+    }
+
+
+    public handleToAmountChange(event: any) {
+        const value = +event.target.value;
+        this.toAmount = value > 0 ? value : Number.POSITIVE_INFINITY;
+    }
+
 
 }

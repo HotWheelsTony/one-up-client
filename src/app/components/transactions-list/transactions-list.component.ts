@@ -15,10 +15,21 @@ export class TransactionsListComponent implements OnChanges {
     public nextPageUrl?: string;
 
     @Input()
+    public query: string = '';
+
+    @Input()
+    public fromAmount: number = Number.NEGATIVE_INFINITY;
+
+    @Input()
+    public toAmount: number = Number.POSITIVE_INFINITY;
+
+    @Input()
     public account?: AccountResource;
 
     @Input()
     public transactions!: TransactionResource[];
+
+    public filteredTransactions: TransactionResource[] = [];
 
 
     constructor(private _transactionsService: TransactionsService) { }
@@ -27,6 +38,7 @@ export class TransactionsListComponent implements OnChanges {
     ngOnChanges(): void {
         if (this.transactions && this.account) {
             this.transactions = this.calculateRemainingBalances(this.account, this.transactions);
+            this.applyFilters();
         }
     }
 
@@ -38,6 +50,7 @@ export class TransactionsListComponent implements OnChanges {
             this.nextPageUrl = response.links?.next;
 
             this.transactions = this.calculateRemainingBalances(this.account, this.transactions.concat(nextPageTxns));
+            this.applyFilters();
         }
     }
 
@@ -59,6 +72,18 @@ export class TransactionsListComponent implements OnChanges {
             }
         }
         return transactions;
+    }
+
+
+    private applyFilters() {
+        this.filteredTransactions = this.transactions.filter(
+            (txn) => {
+                const value = Math.abs(txn.attributes.amount.valueInBaseUnits / 100);
+                const inValueRange = value > this.fromAmount && value < this.toAmount;
+
+                return txn.attributes.description.toLowerCase().includes(this.query) && inValueRange;
+            }
+        );
     }
 
 
