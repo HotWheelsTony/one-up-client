@@ -6,11 +6,11 @@ import { lastValueFrom } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-    selector: 'app-welcome',
-    templateUrl: './welcome.component.html',
-    styleUrls: ['./welcome.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
-export class WelcomeComponent implements OnInit {
+export class LoginComponent implements OnInit {
 
     public tokenForm: FormGroup;
     public invalidToken: boolean = false;

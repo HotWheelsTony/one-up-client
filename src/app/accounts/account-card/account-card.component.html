@@ -1,8 +1,0 @@
-<div class="card">
-    <span class="account-title">{{ account.attributes.displayName }}</span>
-    <div>
-        <span [ngClass]="{'available-balance': account.attributes.balance.valueInBaseUnits > 0}">{{
-            account.attributes.balance.value | currency: '$' }}</span>
-        <span class="currency-code"> {{ account.attributes.balance.currencyCode }}</span>
-    </div>
-</div>

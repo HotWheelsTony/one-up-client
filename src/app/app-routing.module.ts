@@ -3,13 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { AccountsComponent } from './pages/accounts/accounts.component';
 import { InsightsComponent } from './insights/insights/insights.component';
-import { WelcomeComponent } from './pages/welcome/welcome.component';
+import { LoginComponent } from './pages/login/login.component';
 import { SearchComponent } from './pages/search/search.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: WelcomeComponent,
+        component: LoginComponent,
     },
     {
         path: 'accounts',
