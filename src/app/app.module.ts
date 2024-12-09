@@ -8,7 +8,7 @@ import { TransactionsComponent } from './pages/transactions/transactions.compone
 import { AccountsComponent } from './pages/accounts/accounts.component';
 import { MenuComponent } from './menu/menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { InsightsComponent } from './insights/insights/insights.component';
+import { InsightsComponent } from './pages/insights/insights.component';
 import { BarChartComponent } from './insights/bar-chart/bar-chart.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
