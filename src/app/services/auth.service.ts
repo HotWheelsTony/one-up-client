@@ -14,19 +14,15 @@ interface PingResponse {
 })
 export class AuthService {
 
-
     private readonly _baseUrl: string = 'https://api.up.com.au/api/v1/';
-    private readonly _tokenPath: string = 'assets/token.txt';
     private _cachedToken: string | null = null;
 
 
     constructor(private _http: HttpClient) { }
 
     public createHeaders(): HttpHeaders {
-        if (!this._cachedToken) {
-            this._cachedToken = localStorage.getItem('token');
-        }
-        return new HttpHeaders().set('Authorization', `Bearer ${this._cachedToken}`)
+        const token = this._cachedToken ?? localStorage.getItem('token');
+        return new HttpHeaders().set('Authorization', `Bearer ${token}`)
     }
 
     public ping(): Observable<PingResponse> {

@@ -6,6 +6,7 @@ import { AccountsService } from 'src/app/services/accounts.service';
 import { TransactionsService } from 'src/app/services/transactions.service';
 import { AccountResource } from 'src/app/models/resources/account-resource.interface';
 import { ApiResponse } from 'src/app/models/api-response.interface';
+import { DateTime } from 'luxon';
 declare var google: any;
 
 enum Timeframe {
@@ -193,7 +194,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
         if (this.account) {
             this._transactionsSubscription = this._transactionsService.listAccountTransactions(this.account?.id, '100',
-                since.toISOString(), until.toISOString()).subscribe(
+                DateTime.fromJSDate(since), DateTime.fromJSDate(until)).subscribe(
                     (response) => {
                         this.response = response;
                         this._transactions = response.data;

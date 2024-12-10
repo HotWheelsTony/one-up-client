@@ -54,14 +54,7 @@ export class SearchComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const sinceStr = this.since.startOf('day').toISO();
-        const untilStr = this.until.endOf('day').toISO();
-
-        if (!sinceStr || !untilStr) {
-            return;
-        }
-
-        const response = (await lastValueFrom(this._transactionsService.listAccountTransactions(this.account.id, '20', sinceStr, untilStr)));
+        const response = (await lastValueFrom(this._transactionsService.listAccountTransactions(this.account.id, '20', this.since.startOf('day'), this.until.endOf('day'))));
         this.nextPageUrl = response.links?.next;
         this.transactions = response.data;
     }

@@ -34,6 +34,7 @@ export interface TransactionResource {
 
         settledAt: string,
         createdAt: string,
+        transactionType: string;
     };
 
     relationships: {

@@ -1,9 +1,10 @@
-import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable, map } from 'rxjs';
 import { TransactionResource } from '../models/resources/transaction-resource.interface';
 import { ApiResponse } from '../models/api-response.interface';
+import { DateTime } from 'luxon';
 
 @Injectable({
     providedIn: 'root'
@@ -26,11 +27,14 @@ export class TransactionsService {
     }
 
     // Maximum of 100 results per page
-    public listAccountTransactions(accountId: string, resultsPerPage: string = '20', since: string = new Date(0).toISOString(), until: string = new Date().toISOString()): Observable<ApiResponse<TransactionResource[]>> {
+    public listAccountTransactions(accountId: string, resultsPerPage: string = '20',
+        since: DateTime = DateTime.now().minus({ years: 100 }), //should be enough right
+        until: DateTime = DateTime.now(),
+    ): Observable<ApiResponse<TransactionResource[]>> {
         const params = new HttpParams()
             .set('page[size]', resultsPerPage)
-            .set('filter[since]', since)
-            .set('filter[until]', until);
+            .set('filter[since', since.toISO()!)
+            .set('filter[until', until.toISO()!);
 
         const headers = this._authService.createHeaders();
         return this._http.get<ApiResponse<TransactionResource[]>>(`${this._baseUrl}/accounts/${accountId}/transactions`, { headers, params }).pipe(
