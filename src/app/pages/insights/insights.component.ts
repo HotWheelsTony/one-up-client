@@ -1,5 +1,6 @@
-import { Component, effect, OnInit, signal } from '@angular/core';
+import { Component, effect, OnInit, signal, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { IonContent } from '@ionic/angular';
 import { DateTime, Duration } from 'luxon';
 import { lastValueFrom, Subscription } from 'rxjs';
 import { AccountResource } from 'src/app/models/resources/account-resource.interface';
@@ -13,6 +14,8 @@ import { TransactionsService } from 'src/app/services/transactions.service';
     styleUrls: ['./insights.component.css']
 })
 export class InsightsComponent implements OnInit {
+
+    @ViewChild(IonContent) content!: IonContent;
 
     public since = signal(DateTime.now().startOf('day'));
     public until = signal(DateTime.now().endOf('day'));
@@ -110,5 +113,10 @@ export class InsightsComponent implements OnInit {
     public changePeriod(change: number) {
         this.since.update(value => value.plus({ days: change }));
         this.until.update(value => value.plus({ days: change }));
+    }
+
+
+    public scrollToTop() {
+        this.content.scrollToTop(700);
     }
 }

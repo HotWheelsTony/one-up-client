@@ -42,7 +42,7 @@
         <ion-card-content>
             <ion-grid>
                 <ion-text color="dark">
-                    <b>
+                    <h1>
                         <ion-row>
                             <ion-col>
                                 Money in
@@ -61,10 +61,12 @@
                                 {{ sumTxns(getCharges().concat(getPayments())) | currency: undefined: 'symbol': '.0' }}
                             </ion-col>
                         </ion-row>
-                    </b>
+                    </h1>
                     <ion-row class="ion-padding-top">
                         <ion-col>
-                            {{ txns.length }} transactions
+                            <h1>
+                                {{ txns.length }} transactions
+                            </h1>
                         </ion-col>
                     </ion-row>
                 </ion-text>
@@ -87,5 +89,10 @@
             </ion-grid>
         </ion-card-content>
     </ion-card>
+    <app-transactions-list [account]="account" [transactions]="txns"></app-transactions-list>
+
+    <ion-button *ngIf="txns.length > 7" expand="block" class="ion-padding" (click)="scrollToTop()">
+        Scroll to top
+    </ion-button>
 
 </ion-content>
