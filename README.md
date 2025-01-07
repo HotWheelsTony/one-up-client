@@ -4,12 +4,6 @@
 
 This client aims to provide a simple approach to viewing your personal spending & transactional data kindly provided by [Up's public API](https://developer.up.com.au/#welcome)
 
-## Screens
-
-![image](https://github.com/HotWheelsTony/one-up-client/assets/45111354/78b8b714-fd7f-42a1-ab1a-e15b9c31bff3) ![image](https://github.com/HotWheelsTony/one-up-client/assets/45111354/80c55377-64ed-4617-9d6f-e2b79a91da43)
-
-![image](https://github.com/HotWheelsTony/one-up-client/assets/45111354/e19b4897-fd71-4193-b989-2afb6aff6d3e) ![image](https://github.com/HotWheelsTony/one-up-client/assets/45111354/4fdf3047-5e03-452c-9a52-566642fe5336)
-
 ## Required
 
 * [Node](https://nodejs.org/en)
