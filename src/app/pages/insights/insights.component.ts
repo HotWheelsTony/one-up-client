@@ -21,7 +21,8 @@ export class InsightsComponent implements OnInit {
     public until = signal(DateTime.now().endOf('day'));
     public txns: TransactionResource[] = [];
     public account?: AccountResource;
-    public periodDuration: Duration = Duration.fromObject({ days: 1 });
+    public periodDuration: string = 'day';
+    public nextPageUrl: string = '';
 
     private _txnsSubscription?: Subscription;
     private _routeParamsSubscription?: Subscription;
@@ -61,7 +62,7 @@ export class InsightsComponent implements OnInit {
 
         const response = (await lastValueFrom(this._txnsService.listAccountTransactions(this.account.id, '100', since, until)));
         this.txns = response.data;
-        // this.nextPageUrl = response.links?.next as string;
+        this.nextPageUrl = response.links?.next as string;
     }
 
 
@@ -111,12 +112,48 @@ export class InsightsComponent implements OnInit {
 
 
     public changePeriod(change: number) {
-        this.since.update(value => value.plus({ days: change }));
-        this.until.update(value => value.plus({ days: change }));
+        const changeObj = {
+            days: 0,
+            weeks: 0,
+            months: 0,
+        }
+
+        switch (this.periodDuration) {
+            case 'week':
+                changeObj.weeks = change;
+                this.since.update(() => this.until().startOf('week'));
+                this.until.update(() => this.since().endOf('week'));
+                break;
+            case 'day':
+                changeObj.days = change;
+                this.since.update(() => this.until().startOf('day'));
+                this.until.update(() => this.since().endOf('day'));
+                break;
+            case 'month':
+                changeObj.months = change;
+                this.since.update(() => this.until().startOf('month'));
+                this.until.update(() => this.since().endOf('month'));
+                break;
+            default:
+                return;
+        };
+
+        if (this.until().plus(changeObj) > DateTime.now().endOf(this.periodDuration)) {
+            return;
+        }
+
+        this.since.update(value => value.plus(changeObj));
+        this.until.update(value => value.plus(changeObj));
+    }
+
+
+    public changePeriodDuration(event: any) {
+        this.periodDuration = event.detail.value;
+        this.changePeriod(0);
     }
 
 
     public scrollToTop() {
-        this.content.scrollToTop(700);
+        this.content.scrollToTop(600);
     }
 }

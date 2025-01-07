@@ -37,36 +37,42 @@
                 </ion-button>
             </ion-col>
         </ion-row>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="5">
+                <ion-select label="Period" aria-label="Period" interface="action-sheet" placeholder="Daily"
+                    (ionChange)="changePeriodDuration($event)">
+                    <ion-select-option value="day">Daily</ion-select-option>
+                    <ion-select-option value="week">Weekly</ion-select-option>
+                    <ion-select-option value="month">Monthly</ion-select-option>
+                </ion-select>
+            </ion-col>
+        </ion-row>
     </ion-grid>
     <ion-card>
         <ion-card-content>
             <ion-grid>
                 <ion-text color="dark">
-                    <h1>
-                        <ion-row>
-                            <ion-col>
-                                Money in
-                            </ion-col>
-                            <ion-col>
-                                <ion-text color="primary">
-                                    {{ getMoneyIn() | currency: undefined: 'symbol': '.0' }}
-                                </ion-text>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col>
-                                Money out
-                            </ion-col>
-                            <ion-col>
-                                {{ sumTxns(getCharges().concat(getPayments())) | currency: undefined: 'symbol': '.0' }}
-                            </ion-col>
-                        </ion-row>
-                    </h1>
+                    <ion-row>
+                        <ion-col>
+                            Money in
+                        </ion-col>
+                        <ion-col>
+                            <ion-text color="primary">
+                                {{ getMoneyIn() | currency: undefined: 'symbol': '.0' }}
+                            </ion-text>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            Money out
+                        </ion-col>
+                        <ion-col>
+                            {{ sumTxns(getCharges().concat(getPayments())) | currency: undefined: 'symbol': '.0' }}
+                        </ion-col>
+                    </ion-row>
                     <ion-row class="ion-padding-top">
                         <ion-col>
-                            <h1>
-                                {{ txns.length }} transactions
-                            </h1>
+                            {{ txns.length }} transactions
                         </ion-col>
                     </ion-row>
                 </ion-text>
@@ -89,7 +95,8 @@
             </ion-grid>
         </ion-card-content>
     </ion-card>
-    <app-transactions-list [account]="account" [transactions]="txns"></app-transactions-list>
+    <app-transactions-list [account]="account" [transactions]="txns"
+        [nextPageUrl]="nextPageUrl"></app-transactions-list>
 
     <ion-button *ngIf="txns.length > 7" expand="block" class="ion-padding" (click)="scrollToTop()">
         Scroll to top
