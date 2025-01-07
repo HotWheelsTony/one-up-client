@@ -70,32 +70,22 @@ export class InsightsComponent implements OnInit {
         if (txnsArr === null || txnsArr.length === 0) {
             return 0;
         }
+
         return Math.round(txnsArr.map(x => x.attributes.amount.valueInBaseUnits)
             .reduce((prev, curr) => prev + curr) / 100);
     }
 
 
-    public getMoneyIn(): number {
-        if (this.txns === null || this.txns.length === 0) {
-            return 0;
-        }
-
-        const filtered = this.txns.filter(x => {
+    public getMoneyIn(): TransactionResource[] {
+        return this.txns.filter(x => {
             return x.attributes.amount.valueInBaseUnits > 0
                 && x.attributes.transactionType !== 'Transfer';
-        })
-
-        if (filtered.length > 0) {
-            return filtered.map(x => x.attributes.amount.valueInBaseUnits)
-                .reduce((prev, curr) => prev + curr) / 100;
-        }
-
-        return 0;
+        });
     }
 
 
     public getCharges(): TransactionResource[] {
-        const chargeTypes = ['Purchase', null];
+        const chargeTypes = ['Purchase', 'International Purchase', 'Direct Debit', null];
         return this.getTxnsByType(chargeTypes);
     }
 
@@ -107,7 +97,7 @@ export class InsightsComponent implements OnInit {
 
 
     public getTxnsByType(filter: (string | null)[]): TransactionResource[] {
-        return this.txns.filter(x => filter.includes(x.attributes.transactionType));
+        return this.txns.filter(x => filter.includes(x.attributes.transactionType) && x.attributes.amount.valueInBaseUnits < 0);
     }
 
 
@@ -137,6 +127,8 @@ export class InsightsComponent implements OnInit {
             default:
                 return;
         };
+
+
 
         if (this.until().plus(changeObj) > DateTime.now().endOf(this.periodDuration)) {
             return;
