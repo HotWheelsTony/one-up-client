@@ -1,7 +1,7 @@
 import { Component, effect, OnInit, signal, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
-import { DateTime, Duration } from 'luxon';
+import { DateTime, DateTimeUnit } from 'luxon';
 import { lastValueFrom, Subscription } from 'rxjs';
 import { AccountResource } from 'src/app/models/resources/account-resource.interface';
 import { TransactionResource } from 'src/app/models/resources/transaction-resource.interface';
@@ -111,23 +111,16 @@ export class InsightsComponent implements OnInit {
         switch (this.periodDuration) {
             case 'week':
                 changeObj.weeks = change;
-                this.since.update(() => this.until().startOf('week'));
-                this.until.update(() => this.since().endOf('week'));
                 break;
             case 'day':
                 changeObj.days = change;
-                this.since.update(() => this.until().startOf('day'));
-                this.until.update(() => this.since().endOf('day'));
                 break;
             case 'month':
                 changeObj.months = change;
-                this.since.update(() => this.until().startOf('month'));
-                this.until.update(() => this.since().endOf('month'));
                 break;
             default:
                 return;
         };
-
 
 
         if (this.until().plus(changeObj) > DateTime.now().endOf(this.periodDuration)) {
@@ -141,6 +134,15 @@ export class InsightsComponent implements OnInit {
 
     public changePeriodDuration(event: any) {
         this.periodDuration = event.detail.value;
+
+        this.since.update(() => this.until().startOf(this.periodDuration as DateTimeUnit));
+        this.until.update(() => this.since().endOf(this.periodDuration as DateTimeUnit));
+
+        if (this.since() > DateTime.now()) {
+            this.since.update(() => DateTime.now().startOf(this.periodDuration as DateTimeUnit));
+            this.until.update(() => DateTime.now().endOf(this.periodDuration as DateTimeUnit));
+        }
+
         this.changePeriod(0);
     }
 
