@@ -193,7 +193,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
         this.until = until;
 
         if (this.account) {
-            this._transactionsSubscription = this._transactionsService.listAccountTransactions(this.account?.id, '100',
+            this._transactionsSubscription = this._transactionsService.listAccountTransactions(this.account?.id,
                 DateTime.fromJSDate(since), DateTime.fromJSDate(until)).subscribe(
                     (response) => {
                         this.response = response;
@@ -211,7 +211,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
 
     private getNextPage(url: string) {
-        this._nextPageSubscription = this._transactionsService.getNextPage(url, '100').subscribe(
+        this._nextPageSubscription = this._transactionsService.getNextPage(url, 100).subscribe(
             (response) => {
                 this.response = response;
                 this._transactions = this._transactions?.concat(response.data);

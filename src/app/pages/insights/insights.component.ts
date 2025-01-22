@@ -19,10 +19,9 @@ export class InsightsComponent implements OnInit {
 
     public since = signal(DateTime.now().startOf('day'));
     public until = signal(DateTime.now().endOf('day'));
-    public txns: TransactionResource[] = [];
+    public txns: TransactionResource[] | null = null;
     public account?: AccountResource;
     public periodDuration: string = 'day';
-    public nextPageUrl: string = '';
 
     private _txnsSubscription?: Subscription;
     private _routeParamsSubscription?: Subscription;
@@ -60,9 +59,19 @@ export class InsightsComponent implements OnInit {
             return;
         }
 
-        const response = (await lastValueFrom(this._txnsService.listAccountTransactions(this.account.id, '100', since, until)));
-        this.txns = response.data;
-        this.nextPageUrl = response.links?.next as string;
+        this.txns = null;
+
+        let response = (await lastValueFrom(this._txnsService.listAccountTransactions(this.account.id, since, until, 100)));
+        let txns = response.data;
+        let nextPageUrl = response.links?.next as string;
+
+        while (nextPageUrl) {
+            response = await lastValueFrom(this._txnsService.getNextPage(nextPageUrl, 100));
+            txns = txns.concat(response.data);
+            nextPageUrl = response.links?.next as string;
+        }
+
+        this.txns = txns;
     }
 
 
@@ -77,10 +86,13 @@ export class InsightsComponent implements OnInit {
 
 
     public getMoneyIn(): TransactionResource[] {
-        return this.txns.filter(x => {
-            return x.attributes.amount.valueInBaseUnits > 0
-                && x.attributes.transactionType !== 'Transfer';
-        });
+        if (this.txns) {
+            return this.txns.filter(x => {
+                return x.attributes.amount.valueInBaseUnits > 0
+                    && x.attributes.transactionType !== 'Transfer';
+            });
+        }
+        return [];
     }
 
 
@@ -97,7 +109,10 @@ export class InsightsComponent implements OnInit {
 
 
     public getTxnsByType(filter: (string | null)[]): TransactionResource[] {
-        return this.txns.filter(x => filter.includes(x.attributes.transactionType) && x.attributes.amount.valueInBaseUnits < 0);
+        if (this.txns) {
+            return this.txns.filter(x => filter.includes(x.attributes.transactionType) && x.attributes.amount.valueInBaseUnits < 0);
+        }
+        return [];
     }
 
 

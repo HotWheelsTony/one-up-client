@@ -54,7 +54,7 @@ export class SearchComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const response = (await lastValueFrom(this._transactionsService.listAccountTransactions(this.account.id, '20', this.since.startOf('day'), this.until.endOf('day'))));
+        const response = (await lastValueFrom(this._transactionsService.listAccountTransactions(this.account.id, this.since.startOf('day'), this.until.endOf('day'))));
         this.nextPageUrl = response.links?.next;
         this.transactions = response.data;
     }

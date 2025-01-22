@@ -54,10 +54,12 @@
                 <ion-text color="dark">
                     <ion-row>
                         <ion-col>
-                            Money in
+                            <ion-label>
+                                Money in
+                            </ion-label>
                         </ion-col>
                         <ion-col>
-                            <ion-text color="primary">
+                            <ion-text *ngIf="txns; else skeleton" color="primary">
                                 {{ sumTxns(getMoneyIn()) | currency: undefined: 'symbol': '.0' }}
                             </ion-text>
                         </ion-col>
@@ -67,39 +69,54 @@
                             Money out
                         </ion-col>
                         <ion-col>
-                            {{ sumTxns(getCharges().concat(getPayments())) | currency: undefined: 'symbol': '.0' }}
+                            <ion-label *ngIf="txns; else skeleton">
+                                {{ sumTxns(getCharges().concat(getPayments())) | currency: undefined: 'symbol': '.0' }}
+                            </ion-label>
                         </ion-col>
                     </ion-row>
                     <ion-row class="ion-padding-top">
                         <ion-col>
-                            {{ txns.length }} transactions
+                            <ion-label *ngIf="txns; else skeleton">
+                                {{ txns.length }} transactions
+                            </ion-label>
                         </ion-col>
                     </ion-row>
                 </ion-text>
                 <ion-row class=" ion-padding-top">
                     <ion-col>
-                        Payments
+                        <ion-label>
+                            Payments
+                        </ion-label>
                     </ion-col>
                     <ion-col>
-                        {{ sumTxns(getPayments()) | currency: undefined: 'symbol': '.0' }}
+                        <ion-label *ngIf="txns; else skeleton">
+                            {{ sumTxns(getPayments()) | currency: undefined: 'symbol': '.0' }}
+                        </ion-label>
                     </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col>
-                        Charges
+                        <ion-label>
+                            Charges
+                        </ion-label>
                     </ion-col>
                     <ion-col>
-                        {{ sumTxns(getCharges()) | currency: undefined: 'symbol': '.0' }}
+                        <ion-label *ngIf="txns; else skeleton">
+                            {{ sumTxns(getCharges()) | currency: undefined: 'symbol': '.0' }}
+                        </ion-label>
                     </ion-col>
                 </ion-row>
             </ion-grid>
         </ion-card-content>
     </ion-card>
-    <app-transactions-list [account]="account" [transactions]="txns"
-        [nextPageUrl]="nextPageUrl"></app-transactions-list>
+    <app-transactions-list [account]="account" [transactions]="txns ?? []" [nextPageUrl]=""></app-transactions-list>
 
-    <ion-button *ngIf="txns.length > 7" expand="block" class="ion-padding" (click)="scrollToTop()">
+    <ion-button *ngIf="txns && txns.length > 7" expand="block" class="ion-padding" (click)="scrollToTop()">
         Scroll to top
     </ion-button>
+
+    <ng-template #skeleton>
+        <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+    </ng-template>
 
 </ion-content>

@@ -27,9 +27,10 @@ export class TransactionsService {
     }
 
     // Maximum of 100 results per page
-    public listAccountTransactions(accountId: string, resultsPerPage: string = '20',
+    public listAccountTransactions(accountId: string,
         since: DateTime = DateTime.now().minus({ years: 100 }), //should be enough right
         until: DateTime = DateTime.now(),
+        resultsPerPage: number = 20
     ): Observable<ApiResponse<TransactionResource[]>> {
         const params = new HttpParams()
             .set('page[size]', resultsPerPage)
@@ -57,7 +58,7 @@ export class TransactionsService {
     }
 
     // Maximum of 100 results per page
-    public getNextPage(url: string, resultsPerPage: string = '20') {
+    public getNextPage(url: string, resultsPerPage: number = 20) {
         const params = new HttpParams().set('page[size]', resultsPerPage);
         const headers = this._authService.createHeaders();
 
