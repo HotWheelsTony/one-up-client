@@ -103,7 +103,7 @@ export class InsightsComponent implements OnInit {
 
 
     public getPayments(): TransactionResource[] {
-        const paymentTypes = ['Pay anyone', 'Payment'];
+        const paymentTypes = ['Pay Anyone', 'Payment'];
         return this.getTxnsByType(paymentTypes);
     }
 
@@ -164,5 +164,25 @@ export class InsightsComponent implements OnInit {
 
     public scrollToTop() {
         this.content.scrollToTop(600);
+    }
+
+
+    public createGraph() {
+        const width = 640;
+        const height = 400;
+        const marginTop = 20;
+        const marginRight = 20;
+        const marginBottom = 20;
+        const marginLeft = 20;
+
+        const data: { date: DateTime, value: number }[] | undefined = this.txns?.map(x => {
+            return {
+                date: DateTime.fromISO(x.attributes.createdAt),
+                value: x.attributes.amount.valueInBaseUnits
+            }
+        });
+
+        console.log(data);
+
     }
 }
