@@ -16,6 +16,7 @@ import { IonicModule } from '@ionic/angular';
 import { SearchComponent } from './pages/search/search.component';
 import { DateTime, Duration } from 'luxon';
 import { TransactionsListComponent } from './components/transactions-list/transactions-list.component';
+import { TransactionDetailsComponent } from './pages/transaction-details/transaction-details.component';
 
 
 
@@ -30,7 +31,8 @@ import { TransactionsListComponent } from './components/transactions-list/transa
         BarChartComponent,
         LoginComponent,
         SearchComponent,
-        TransactionsListComponent
+        TransactionsListComponent,
+        TransactionDetailsComponent
     ],
     imports: [
         BrowserModule,

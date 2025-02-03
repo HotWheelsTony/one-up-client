@@ -5,6 +5,7 @@ import { AccountsComponent } from './pages/accounts/accounts.component';
 import { InsightsComponent } from './pages/insights/insights.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SearchComponent } from './pages/search/search.component';
+import { TransactionDetailsComponent } from './pages/transaction-details/transaction-details.component';
 
 const routes: Routes = [
     {
@@ -26,6 +27,10 @@ const routes: Routes = [
     {
         path: 'accounts/:accountId/search',
         component: SearchComponent
+    },
+    {
+        path: 'accounts/:accountId/:transactionId',
+        component: TransactionDetailsComponent
     }
 
 ];

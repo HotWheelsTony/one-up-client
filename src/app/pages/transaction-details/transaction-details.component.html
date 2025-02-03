@@ -1,0 +1,112 @@
+<ion-header mode="md">
+    <ion-toolbar>
+        <ion-title>
+            Transaction Details
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-card>
+        <ion-card-content>
+            <ion-text color="dark">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <h1>
+                                <b>
+                                    {{ transaction?.attributes?.description }}
+                                </b>
+                                <br>
+                                <ion-text color="medium">
+                                    {{ transaction?.attributes?.createdAt | date: 'EEE, d MMM, h:mm a' }}
+                                </ion-text>
+                            </h1>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-label>
+                                Status
+                            </ion-label>
+                        </ion-col>
+                        <ion-col>
+                            <ion-label *ngIf="transaction; else skeleton">
+                                {{ transaction.attributes.status }}
+                            </ion-label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-label>
+                                Amount
+                            </ion-label>
+                        </ion-col>
+                        <ion-col>
+                            <ion-label *ngIf="transaction; else skeleton">
+                                {{ transaction.attributes.amount.value | currency }}
+                            </ion-label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-label>
+                                Transaction type
+                            </ion-label>
+                        </ion-col>
+                        <ion-col>
+                            <ion-label *ngIf="transaction; else skeleton">
+                                {{ transaction.attributes.transactionType ?? "Unspecified" }}
+                            </ion-label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="transaction?.attributes?.message">
+                        <ion-col>
+                            <ion-label>
+                                Message
+                            </ion-label>
+                        </ion-col>
+                        <ion-col>
+                            <ion-label *ngIf="transaction; else skeleton">
+                                {{ transaction.attributes.message }}
+                            </ion-label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-label>
+                                Created at
+                            </ion-label>
+                        </ion-col>
+                        <ion-col>
+                            <ion-label *ngIf="transaction; else skeleton">
+                                {{ transaction.attributes.createdAt | date: 'd/MM/yy hh:mm:ssa' }}
+                            </ion-label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="transaction?.attributes?.settledAt">
+                        <ion-col>
+                            <ion-label>
+                                Settled at
+                            </ion-label>
+                        </ion-col>
+                        <ion-col>
+                            <ion-label *ngIf="transaction; else skeleton">
+                                {{ transaction.attributes.settledAt | date: 'd/MM/yy hh:mm:ssa' }}
+                            </ion-label>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-text>
+        </ion-card-content>
+    </ion-card>
+
+    <ng-template #skeleton>
+        <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+    </ng-template>
+
+</ion-content>
