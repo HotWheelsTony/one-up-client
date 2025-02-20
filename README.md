@@ -4,6 +4,20 @@
 
 This client aims to provide a simple approach to viewing your personal spending & transactional data kindly provided by [Up's public API](https://developer.up.com.au/#welcome)
 
+## Screens
+
+### Accounts
+![accouns screenshot](https://github.com/user-attachments/assets/d2db144e-bd19-4620-a92b-7e6417a82fd2)
+
+### Transactions
+![transactions screenshot](https://github.com/user-attachments/assets/663a900d-9530-4cb8-ab7a-b70c7c1c95a6)
+
+### Search Transacitons
+![search screenshot](https://github.com/user-attachments/assets/6662e9bf-2f88-4d17-a508-a3d81243337a)
+
+### Basic Insights
+![insights screenshot](https://github.com/user-attachments/assets/a1baf199-f89f-473a-a073-b8f39816eb8a)
+
 ## Required
 
 * [Node](https://nodejs.org/en)
@@ -42,10 +56,6 @@ __Android via Capacitor__
 
   * To see changes on physical device
     * Run `ng build` then `npx cap run android`
-
-
-__iOS via Capacitor__
-  * Working on it
 
 
 
