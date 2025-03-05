@@ -1,27 +1,44 @@
 <ion-content class="ion-padding">
-    <h1>
-        <ion-text color="primary">
-            Welcome!
-        </ion-text>
-    </h1>
-    <h2>
-        To get started, please enter your personal access token:
-    </h2>
-    <form [formGroup]="tokenForm" (ngSubmit)="onSubmit()">
-        <ion-input mode="md" formControlName="token" label="Up Token" labelPlacement="floating"
-            placeholder="up:yeah:***" fill="outline">
-        </ion-input>
-        <div class="help">
-            <a href="https://api.up.com.au/getting_started">
-                <ion-icon name="help-circle-outline" color="medium"></ion-icon>
-                <ion-text color="medium">
-                    What's this?
+
+    <div class="welcome">
+        <ion-label class="ion-text-center">
+            <h1>
+                <ion-text color="primary">
+                    Welcome!
                 </ion-text>
-            </a>
-        </div>
-        <ion-button mode="ios" [disabled]="!tokenForm.valid" class="ion-margin-top" type="submit" expand="full">Lets
-            go!</ion-button>
+            </h1>
+        </ion-label>
+    </div>
+
+    <ion-label class="ion-margin-bottom">
+        <h2>
+            To get started, please enter your personal access token:
+        </h2>
+    </ion-label>
+
+
+    <form [formGroup]="tokenForm" (ngSubmit)="onSubmit()">
+        <ion-input formControlName="token" label="Up Token:" placeholder="up:yeah:***" fill="">
+        </ion-input>
+
+        <ion-button [disabled]="!tokenForm.valid" class="ion-margin-top" type="submit" expand="block">
+            Login
+        </ion-button>
+
     </form>
-    <ion-toast mode="ios" class="ion-text-center" [isOpen]="isToastOpen" message="Invalid Up token" [duration]="5000"
-        (didDismiss)="showToast(false)" color="danger"></ion-toast>
+
+    <div class="help ion-text-center">
+        <ion-label>
+            Don't have an access token yet?
+            <a href="https://api.up.com.au/getting_started">
+                click here.
+            </a>
+        </ion-label>
+    </div>
+
+    <ion-toast class="ion-text-cente" [isOpen]="isToastOpen" message="Error validating token" [duration]="5000"
+        (didDismiss)="showToast(false)" color="danger">
+
+    </ion-toast>
+
 </ion-content>

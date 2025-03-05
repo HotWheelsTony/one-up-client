@@ -1,20 +1,8 @@
-h1 {
+.welcome {
     margin-top: 15vh;
     margin-bottom: 15vh;
 }
 
-h2 {
-    padding-bottom: 10px;
-}
-
-a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-}
-
 .help {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
+    margin-top: 10vh;
 }

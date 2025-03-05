@@ -1,6 +1,5 @@
 <ion-list>
-    <ion-item *ngFor="let txn of filteredTransactions" [routerLink]="['/accounts', account?.id, txn.id]"
-        [detail]="false">
+    <ion-item *ngFor="let txn of filteredTransactions" [routerLink]="['', account?.id, txn.id]" [detail]="false">
         <div>
             <ion-label>
                 {{ txn.attributes.description }}

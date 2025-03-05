@@ -6,33 +6,38 @@ import { InsightsComponent } from './pages/insights/insights.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SearchComponent } from './pages/search/search.component';
 import { TransactionDetailsComponent } from './pages/transaction-details/transaction-details.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
     {
-        path: '',
+        path: 'login',
         component: LoginComponent,
     },
     {
-        path: 'accounts',
-        component: AccountsComponent
+        path: '',
+        component: AccountsComponent,
+        canActivate: [AuthGuard]
     },
     {
-        path: 'accounts/:accountId',
-        component: TransactionsComponent
+        path: ':accountId',
+        component: TransactionsComponent,
+        canActivate: [AuthGuard]
     },
     {
-        path: 'accounts/:accountId/insights',
-        component: InsightsComponent
+        path: ':accountId/insights',
+        component: InsightsComponent,
+        canActivate: [AuthGuard]
     },
     {
-        path: 'accounts/:accountId/search',
-        component: SearchComponent
+        path: ':accountId/search',
+        component: SearchComponent,
+        canActivate: [AuthGuard]
     },
     {
-        path: 'accounts/:accountId/:transactionId',
-        component: TransactionDetailsComponent
+        path: ':accountId/:transactionId',
+        component: TransactionDetailsComponent,
+        canActivate: [AuthGuard]
     }
-
 ];
 
 @NgModule({

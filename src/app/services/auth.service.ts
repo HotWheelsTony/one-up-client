@@ -2,12 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, map, catchError } from 'rxjs';
 
-interface PingResponse {
-    meta: {
-        id: string;
-        statusEmoji: string;
-    }
-}
 
 @Injectable({
     providedIn: 'root'
@@ -25,20 +19,15 @@ export class AuthService {
         return new HttpHeaders().set('Authorization', `Bearer ${token}`)
     }
 
-    public ping(): Observable<PingResponse> {
-        const headers = this.createHeaders();
-        return this._http.get<PingResponse>(`${this._baseUrl}/util/ping`, { headers }).pipe(
-            map((response) => ({
-                meta: response.meta
-            }))
-        );
-    }
-
-    public validateToken(token: string): Observable<boolean> {
+    public validateToken(token: string | null): Observable<boolean> {
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-        return this._http.get<PingResponse>(`${this._baseUrl}/util/ping`, { headers }).pipe(
+        return this._http.get<{
+            meta: {
+                id: string;
+                statusEmoji: string;
+            }
+        }>(`${this._baseUrl}/util/ping`, { headers }).pipe(
             map((response) => {
-                console.log('Token validated successfully!: ', response);
                 return true;
             }),
             catchError((error) => {
